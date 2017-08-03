@@ -1,0 +1,242 @@
+
+main section.progress-container {
+    height: 16px;
+    padding-left: 0;
+    padding-right: 20px;
+    overflow: visible;
+    margin: 60px auto 40px;
+
+}
+
+div.stepped-progress {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: #CDE2F0;
+}
+
+div.stepped-progress div.stepped-progress-bar {
+    position: absolute;
+    background: #8fc4e6;
+    width: 0;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    will-change: width;
+    pointer-events: none;
+}
+
+div.stepped-progress ul.stepped-progress-steps {
+    z-index: 2;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    top: 0;
+    left: 0;
+    display: table;
+}
+
+div.stepped-progress ul.stepped-progress-steps li {
+    display: table-cell;
+    position: relative;
+}
+
+div.stepped-progress ul.stepped-progress-steps li div.step {
+    position: absolute;
+    height: 40px;
+    min-width:40px;
+    width: auto;
+    top: -12px;
+    right: -20px;
+    z-index: 3;
+    border-radius: 20px;
+    padding: 0px 20px;
+    background: #CDE2F0;
+    cursor: pointer;
+    will-change: background-color;
+    text-align: center;
+}
+
+div.stepped-progress ul.stepped-progress-steps li div.step span {
+    line-height: 2.8;
+    color: white;
+    pointer-events: none;
+}
+
+div.stepped-progress ul.stepped-progress-steps li div.active {
+    background: #8fc4e6;
+}
+
+main section.form-flow {
+    background: lightgreen;
+    padding: 0;
+    display: none;
+    opacity: 0;
+}
+
+main section.form-flow.active {
+    display: block;
+    opacity: 1;
+}
+
+main section.form-flow > div {
+    margin-bottom: 0;
+    padding: 10px 20px 20px;
+    position: relative;
+}
+
+main section.form-flow > div .print-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    opacity: .6;
+}
+
+main section.form-flow > div .print-btn:hover {
+    opacity: 1;
+}
+
+main section.form-flow form.upload-form {
+    position: relative;
+}
+
+main section.form-flow form.upload-form input[type="file"] {
+    visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+div.signature-container {
+    margin-bottom: 15px;
+}
+
+#consent-signature {
+    border: 2px solid #f1f1f1;
+    vertical-align: top;
+}
+
+.well {
+    background: aliceblue;
+    border-radius: 5px;
+    display: none;
+}
+
+.well.show {
+    display: block;
+}
+
+.genotype-sources {
+    padding: 0;
+    margin-bottom: 40px;
+}
+
+.genotype-sources li {
+    list-style: none;
+    display: inline-block;
+    vertical-align: baseline;
+    min-height: 120px;
+    float: left;
+    border-radius: 5px;
+}
+
+.genotype-sources li:hover, .genotype-sources li.selected {
+    background: aliceblue;
+}
+
+.genotype-sources li a {
+    display: inline-block;
+    margin: 20px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 80px;
+}
+
+a.twentythree-logo-sm {
+    width: 100px;
+    background-image: url('../img/23andme/logo-sm.png');
+}
+
+a.ancestry-logo-sm {
+    width: 183px;
+    background-image: url('../img/ancestry/logo.svg');
+}
+
+a.familytree-logo-sm {
+    width: 186px;
+    background-image: url('../img/familytree/logo-sm.png');
+}
+
+/* carousel */
+.carousel-inner .item {
+    font-size: 16px;
+    text-align: center;
+}
+
+.carousel-control.right, .carousel-control.left {
+    background: none;
+    color: #8fc4e6;
+    font-size: 16px;
+}
+
+@media print {
+    * {
+        visibility: hidden;
+    }
+
+    main section.progress-container, main section.breadcrumb-container, nav {
+        display: none;
+    }
+
+    main section.form-flow, main section.form-flow * {
+        visibility: visible;
+    }
+}
+
+
+
+
+/* -- Walkthrough Styles -- */
+
+div[id^='walkthrough-'] h4 {
+    font-weight:bold;
+}
+
+div[id^='walkthrough-'] img {
+    width: 828px;
+    max-width:100%;
+    max-height:100%;
+    padding-left:20px;
+}
+
+div[id^='walkthrough-'] hr {
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, #ddd, #aaa, #ddd);
+}
+
+/* File Upload Button Override,
+   from: http://geniuscarrier.com/how-to-style-a-html-file-upload-button-in-pure-css/ */
+.fileUpload {
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+}
+.fileUpload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}

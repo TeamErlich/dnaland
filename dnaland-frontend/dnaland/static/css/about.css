@@ -1,0 +1,39 @@
+body {
+    background: #FCFCFC
+}
+
+main section.about {
+    background: #FFF;
+    border: 1px solid #e5e5e5;
+    border-top: 2px solid rgb(105, 189, 219);
+    padding-bottom: 20px;
+}
+
+.about-main {
+    padding: 15px 20px;
+}
+
+.about-sidebar {
+    padding: 15px;
+    background:ghostwhite;
+}
+
+.about-personnel {
+
+}
+
+.about-person {
+    padding-bottom: 16.333%;
+    position: relative;
+    margin-bottom: 5px;
+}
+
+/* circular portrait */
+.about-person .about-portrait {
+    position: absolute;
+    width: 80%;
+    height: 80%;
+    border-radius: 50%;
+    top: 10%;
+    left: 10%;
+}

@@ -1,0 +1,90 @@
+{% extends "master.html" %}
+
+{% block navbartitle %}
+DNA.LAND - Template Demo
+{% endblock %}
+
+{% block content %}
+<main class="" role="main" tabindex="-1">
+
+  <section class="container fluid-container greeting panel">
+    <h4>
+      Hello World for {{ session.first_name }} {{ session.last_name }}
+    </h4>
+
+    <p>
+      Maecenas at nibh maximus, commodo ante vel, lobortis urna. Etiam
+      a sollicitudin tellus. Morbi mattis, eros at suscipit mollis,
+      magna ante posuere purus, ut pharetra enim nisl quis
+      leo. Phasellus non ultricies dui. Nunc sem nisi, mollis iaculis
+      lectus eu, mollis viverra velit. Pellentesque habitant morbi
+      tristique senectus et netus et malesuada fames ac turpis
+      egestas. Vivamus ornare fermentum dolor, facilisis fringilla sem
+      rhoncus non. Maecenas rhoncus enim ex. Curabitur felis ante,
+      accumsan porttitor congue non, venenatis non ipsum. Donec ornare
+      dignissim elit, nec porttitor nunc venenatis ac. Nulla
+      facilisi. Etiam volutpat, tellus eu gravida laoreet, tellus
+      nulla maximus sapien, in lobortis eros magna eu lorem.
+  </section>
+
+  <section class="container fluid-container user-space">
+    <div class="row">
+
+      <div class="col-md-6 col-xs-12 box user-directory">
+	<div class="panel panel-default">
+          <div class="panel-heading">
+	    Stuff
+	  </div>
+          <div class="panel-body">
+	    Nulla pharetra sollicitudin sapien, eget pulvinar mauris
+	    ultricies vel. Duis porta enim et lorem tincidunt, id
+	    tincidunt neque porttitor. Aliquam erat volutpat. Mauris
+	    orci purus, bibendum vel vehicula sed, semper eget
+	    metus. Etiam molestie tellus eu nisl ultrices, eu
+	    convallis arcu egestas. Nunc faucibus nibh nec ligula
+	    sagittis pharetra. Aliquam imperdiet, justo eu consequat
+	    hendrerit, mi velit rutrum mauris, in eleifend eros nibh
+	    in nunc.
+	  </div>
+	</div>
+      </div>
+
+    <div class="col-md-6 col-xs-12 box user-directory">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+	  More Stuff
+	</div>
+        <div class="panel-body">
+	  Etiam aliquam blandit eros sed lacinia. Aliquam congue turpis a
+	  convallis molestie. Maecenas fermentum velit at mauris sodales, sed
+	  ultrices dolor elementum. Pellentesque habitant morbi tristique
+	  senectus et netus et malesuada fames ac turpis egestas. Nam sagittis
+	  lorem vel nisi tempor viverra. Nunc leo velit, pulvinar id facilisis
+	  ut, varius at mauris. Maecenas sapien turpis, convallis sit amet
+	  venenatis non, imperdiet nec urna. In et lacus quis leo euismod
+	  volutpat ac et risus. Aliquam malesuada pretium purus eget
+	  maximus. Donec ornare nulla scelerisque, elementum sapien eu, luctus
+	  libero.
+	</div>
+      </div>
+    </div>
+
+    </div> {# div.row #}
+  </section>
+
+</main>
+{% endblock %}
+
+{% block js %}
+
+{# On page load #}
+<script type="text/javascript">
+
+$(function()
+{
+    console.log("Hello World");
+});
+
+</script>
+
+{% endblock %}

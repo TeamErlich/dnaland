@@ -1,0 +1,103 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}DNA.LAND{% endblock %}</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+
+    <meta name="description" content="{{ meta.description }}"/>
+    <meta name="author" content="{{ meta.author }}"/>
+
+    <!-- fb -->
+    <meta property="og:title" content="{{ meta.title }}"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:description" content="{{ meta.description }}"/>
+    <meta property="og:image" content="/static/img/logo-circle-medium.png"/>
+    <meta property="og:url" content="{{ request.path }}"/>
+    <meta property="og:site_name" content="DNA.LAND"/>
+
+    <!-- twitter -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="DNA.LAND">
+    <meta name="twitter:description" content="{{ meta.description }}">
+    <meta name="twitter:image" content="/static/img/logo-circle-medium.png">
+    <meta name="twitter:url" content="{{ request.path }}">
+
+    <!-- css -->
+    <link rel="shortcut icon" href="/static/img/logo.ico"/>
+    <link rel='stylesheet' href='//fonts.googleapis.com/css?family=Quicksand' type="text/css">
+    <link rel="stylesheet" href="/static/bower_components/bootstrap/dist/css/bootstrap-paper.css" type="text/css">
+    <link rel="stylesheet" href="/static/css/master.css" type="text/css">
+    <link rel="stylesheet" href="/static/css/socialite.css" type="text/css">
+    <link rel="stylesheet" href="/static/splash/font-awesome/css/font-awesome.min.css" type="text/css">
+    <script src="/static/bower_components/modernizr/modernizr.js"></script>
+
+    <link href="/static/css/profile.css" rel="stylesheet">
+    {% block css %}{% endblock %}
+</head>
+<body>
+
+<div class="header">
+</div>
+
+{## Development Website Warning.
+    THis can be enabled in the configuration file. ##}
+{% if config.DEV_WEBSITE %}
+<div style="position: fixed; bottom: 0; right: 0; z-index: 100000; opacity: 0.8;"
+     class="alert alert-danger">
+DEVELOPMENT WEBSITE! nothing is real.
+</div>
+{% endif %}
+
+{## Flask-Flash Messages ##}
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{category}}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+
+{## Main content, set by individual pages ##}
+{% block content %}
+<main class="" id="content" role="main" tabindex="-1">
+</main>
+{% endblock %}
+
+
+
+{## Footer ##}
+<footer>
+  <section class="social-share">
+    <a href="mailto:info@dna.land">
+      <i class="fa fa-envelope fa-fw fa-2x"></i>
+    </a>
+    <a href="https://www.facebook.com/knowyourgenome" target="_blank">
+      <i class="fa fa-facebook fa-fw fa-2x"></i>
+    </a>
+    <a href="https://twitter.com/dl1dl1" target="_blank">
+      <i class="fa fa-twitter fa-fw fa-2x"></i>
+    </a>
+    <!--
+    <a href="http://erlichya.tumblr.com/" target="_blank">
+      <i class="fa fa-rss fa-fw fa-2x"></i>
+    </a>
+  -->
+  </section>
+
+  <section class="legal">
+    &copy; 2015 Erlich lab
+  </section>
+</footer>
+
+
+{## Additional Javascript code, set by individual pages ##}
+{% block js %}
+{% endblock %}
+
+
+</body>
+</html>

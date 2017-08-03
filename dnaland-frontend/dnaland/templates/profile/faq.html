@@ -1,0 +1,883 @@
+{% extends "master.html" %}
+
+{% block css %}
+<style>
+div.faq-item {
+   padding-top: 1em;
+   padding-bottom: 3em;
+}
+
+div.faq-q {
+   font-weight: bold;
+}
+
+div.faq-a {
+   padding-left: 1em;
+}
+
+</style>
+{% endblock %}
+
+{% block navbartitle %}
+DNA.LAND
+{% endblock %}
+
+{% block content %}
+<main class="" role="main" tabindex="-1">
+
+  <section class="container fluid-container greeting panel">
+    <a name="top"></a>
+    <h4>
+      Frequently Asked Questions
+    </h4>
+    <br/>
+    Questions:
+    <ul>
+
+      <li>
+	<a href="#continue_button">
+	  	  I checked the box in the consent, but clicking on
+	  	  the<b>'I&nbsp;AGREE: CONTINUE'</b> button does nothing. What is going on?
+	</a>
+      </li>
+
+      <li>
+	<a href="#already_registered">
+	  I can't login and the website says my email is already
+	  registered.
+	</a>
+      </li>
+
+      <li>
+	<a href="#multiple_kits">
+	  I have used multiple kits for my family members. How can I
+	  upload them to the website?
+	</a>
+      </li>
+
+
+      <li>
+	<a href="#multiple_companies">
+	  I was tested with 23andMe, FamilyTreeDNA, and
+	  AncestryDNA. Which data should I upload?
+	</a>
+      </li>
+
+      <li>
+	<a href="#impute_panel">
+	  What is the reference panel you use for imputation?
+	</a>
+      </li>
+
+      <li>
+	<a href="#match_limit">
+	  In <b>the relative finder report</b>, why do you show only the
+	  first 50 matches? Can you show more?
+	</a>
+      </li>
+
+      <li>
+	<a href="#in_progress">
+	  My files show <b>'in progress'</b> but I've been waiting more
+	  than 24 hours.
+	</a>
+      </li>
+
+      <li>
+	<a href="#dnaland_added_value">
+	  If my genome data is already on 23andMe, FTDNA, AncestryDNA,
+	  and GEDmatch, and I’ve run it through Promethease, what
+	  additional value will I get by uploading it to DNA
+	  Land?
+	</a>
+      </li>
+
+      <li>
+	<a href="#contribution_badge">
+	  What is the contribution badge?
+	</a>
+      </li>
+
+      <li>
+	<a href="#ancestry_algorithm">
+	  What is the Ancestry detection method?
+	</a>
+      </li>
+
+      <li>
+	<a href="#ibd_algorithm">
+	  What is the Identity by Descent (IBD) detection method?
+	</a>
+      </li>
+
+      <li>
+	<a href="#vcf_info">
+	  What are VCF files and how to view them?
+	</a>
+      </li>
+
+      <li>
+	<a href="#imputation">
+	  What is "imputation"?
+	</a>
+      </li>
+
+      <li>
+	<a href="#geni">
+	  Importing Geni.com Profile
+	</a>
+      </li>
+
+      <li>
+	<a href="#missing_relatives">
+	  I know that my relative X is in the website.
+          Why I can't see X on my relative matching report?
+	</a>
+      </li>
+
+      <li>
+      <a href="#ambiguous">
+        There is a percentage of my Ancestry Report that is labeled "ambiguous."
+        What does this mean?
+      </a>
+      </li>
+
+      <li>
+      <a href="#newancestryreport">
+        I just logged on to DNA.LAND and have noticed there is a new Ancestry
+        Report. I can’t figure out how to read it!
+      </a>
+      </li>
+
+      <li>
+      <a href="#fileformats">
+        I have accounts on 23andMe, Ancestry, and FTDNA, and I can’t figure out
+        which file formats you accept.
+      </a>
+      </li>
+
+      <li>
+      <a href="#gmailtrick">
+        I have consent from a number of my family members to upload their
+        DNA files/I have DNA files from all three of the companies, but I
+        only have one e-mail address. Is there anyway I can make multiple
+        accounts with one e-mail?
+      </a>
+      </li>
+
+      <li>
+      <a href="#genesforgood">
+        I have a 23andMe formatted file from Genes For Good. Why can’t I upload it
+        to DNA.LAND?
+      </a>
+      </li>
+
+      <li>
+      <a href="#doesnotinclude">
+        I have just looked at the new Ancestry Report, and I am confused by the
+        text that reads “Does Not Include.”
+      </a>
+      </li>
+
+      <li>
+      <a href="#ancientandrecent">
+  What is the difference between an “Ancient” match and a “Recent”
+          match?
+      </a>
+      </li>
+
+      <li>
+      <a href="#conceptualize">
+  How does DNA.LAND conceptualize Ancestry?
+      </a>
+      </li>
+
+      <li>
+      <a href="#different">
+  Why are the results of my Ancestry Report different from those I’ve found
+  on other services?
+      </a>
+      </li>
+
+      <li>
+      <a href="#disagree">
+  I strongly disagree with the name of one or more of my Ancestry
+  Composites. Why were they given the wrong names?
+      </a>
+      </li>
+
+      <li>
+      <a href="#tbi">
+  What are <b>TBI (VCF Tabix)</b> files?
+      </a>
+      </li>
+
+    </ul>
+
+
+    <br/>
+    <br/>
+    <br/>
+
+    <a name="continue_button"></a>
+    <div class="faq-item">
+      <div class="faq-q">
+	<h5>
+	  I checked the box in the consent, but clicking on the
+	  <b>'I&nbsp;AGREE: CONTINUE'</b> button does nothing. What is going on?
+	  <small><a href="#top">(top)</a></small>
+	</h5>
+      </div>
+
+      <div class="faq-a">
+	There is a known issue to pass the consent when using Internet
+	Explorer 11 on a Windows Machine. If this is the case, please
+	use a different browser.
+	<br/>
+
+	If you use a different browser and still experience problems
+	with passing the consent step, your browser likely does not
+	support JavaScript. Please go to this
+	<a href="http://www.enable-javascript.com/" target="_blank">link</a>
+	to test if your browser supports JavaScript and for instructions
+	about how to turn it on.
+      </div>
+    </div>
+
+
+
+    <a name="already_registered"></a>
+    <div class="faq-item">
+      <div class="faq-q">
+	<h5>
+	  I can't login and the website says my email is already
+	  registered.
+	  <small><a href="#top">(top)</a></small>
+	</h5>
+      </div>
+
+      <div class="faq-a">
+	Before you can continue with registration, you must verify the
+	link sent to the email address you used. After you click the
+	link, you will be directed back to the home page.
+      </div>
+    </div>
+
+
+    <a name="multiple_kits"></a>
+    <div class="faq-item">
+      <div class="faq-q">
+	<h5>
+	  I have used multiple kits for my family members. How can I
+	  upload them to the website?
+	  <small><a href="#top">(top)</a></small>
+	</h5>
+      </div>
+      <div class="faq-a">
+	DNA.Land currently supports only one genome per account. We
+	are an academic project and need to comply with human subject
+	regulations. Our terms require the consent of the person whose
+	genome is being uploaded. As long as your other family members
+	agree to the consent terms you can upload their genomes on their
+	behalf using a separate account. Please write the true first and
+	last name (not yours) of the person whose genome was uploaded as
+	this is required by the consent.
+      </div>
+    </div>
+
+    <a name="multiple_companies"></a>
+    <div class="faq-item">
+      <div class="faq-q">
+	<h5>
+	  I was tested with 23andMe, FamilyTreeDNA, and
+	  AncestryDNA. Which data should I upload?
+	  <small><a href="#top">(top)</a></small>
+	</h5>
+      </div>
+
+      <div class="faq-a">
+	We have no data indicating a difference in the quality of the
+	results based on the tested company. You may select any company
+	you want.  Your data will be statistically imputed shortly after
+	you upload your file and any analysis is done using the imputed
+	genome. As such, regardless of the input data, genomes are
+	entered into a standard format.
+      </div>
+    </div>
+
+
+
+    <a name="impute_panel"></a>
+    <div class="faq-item">
+      <div class="faq-q">
+	<h5>
+	  What is the reference panel you use for imputation?
+	  <small><a href="#top">(top)</a></small>
+	</h5>
+      </div>
+      <div class="faq-a">
+	The reference is the latest 1000 Genomes reference dataset
+	(autosomal data: June 2014, X: August 2012).
+      </div>
+    </div>
+
+
+    <a name="match_limit"></a>
+    <div class="faq-item">
+      <div class="faq-q">
+	<h5>
+	  In <b>the relative finder report</b>, why do you show only the
+	  first 50 matches? Can you show more?
+	  <small><a href="#top">(top)</a></small>
+	</h5>
+      </div>
+
+      <div class="faq-a">
+	Our website currently displays the top 50 matches, sorted by
+	relatedness degree and total shared segments. We are working
+	on new features to allow users to view more matches.
+      </div>
+    </div>
+
+
+    <a name="in_progress"></a>
+    <div class="faq-item">
+      <div class="faq-q">
+	<h5>
+	  My files show <b>'in progress'</b> but I've been waiting more
+	  than 24 hours.
+	  <small><a href="#top">(top)</a></small>
+	</h5>
+      </div>
+      <div class="faq-a">
+        This is a common occurrence during launch periods for new features.
+        At those times, the number of new users joining each day is much higher
+        than normal. Our systems are always working at full capacity to provide
+        the analysis results for everyone as soon as possible. If your files
+        show <b>'in progress'</b> for more than 72 hours, we recommend writing
+        to <a href="mailto:info@dna.land">info@dna.land</a>  as there is likely
+        an issue with your account.
+      </div>
+    </div>
+
+    <a name="dnaland_added_value"></a>
+    <div class="faq-item">
+      <div class="faq-q">
+	<h5>
+	  If my genome data is already on 23andMe, FTDNA, AncestryDNA,
+	  and GEDmatch, and I’ve run it through Promethease, what
+	  additional value will I get by uploading it to DNA
+	  Land?
+	  <small><a href="#top">(top)</a></small>
+	</h5>
+      </div>
+      <div class="faq-a">
+	DNA.Land provides you with several additional features:
+
+	<ul>
+	  <li>
+	    DNA.Land imputes your genome, which opens the possibility
+	    of seeing genetic variations that were not part of the
+	    original file. It is similar to getting whole genome
+	    sequencing data (albeit we still miss some rare variations)
+	    without investing thousands of dollars.
+	  </li>
+	  <li>
+	    You might find additional relatives because we use
+	    different algorithms.
+	  </li>
+	  <li>
+	    We will be adding other features to the website that you
+	    don't get with other sites. This is just the
+	    beginning. Early adopters will help us to validate our
+	    approach and to continue our efforts.
+	  </li>
+	  <li>
+	    Last but not least, you contribute to academic science
+	    through DNA.Land. 23andMe are doing some research but they
+	    are a private company and hold a lot of data for
+	    themselves. By contributing your genome to DNA.Land you
+	    will enable non-profit researchers and advance basic and
+	    translational science.
+	  </li>
+	</ul>
+      </div>
+    </div>
+
+    <a name="contribution_badge"></a>
+    <div class="faq-item">
+      <div class="faq-q">
+	<h5>
+	  What is the contribution badge?
+	  <small><a href="#top">(top)</a></small>
+	</h5>
+      </div>
+      <div class="faq-a">
+	Your contribution badge shows your score based on the information
+	you provide on DNA.Land.  The 2 circles represent "genotype" and
+	"genealogy" and reach 100% if you've uploaded your genome have
+	answered all the questions about you and your parents.  The points
+	are based on the number of bits of information you provide. The
+	percentage is your ranking compared to other users, relating to
+	how much information you've provided and can change as the ranking
+	change.
+	<center>
+	  <img style="max-width:100%" src="static/img/badge-info-v1.png" />
+	</center>
+      </div>
+    </div>
+
+    <a name="ancestry_algorithm"></a>
+    <div class="faq-item">
+      <div class="faq-q">
+	<h5>
+	  What is the Ancestry detection method?
+	  <small><a href="#top">(top)</a></small>
+	</h5>
+      </div>
+      <div class="faq-a">
+	We use <a target="_blank" href="http://jkplab.org/">Dr. Joe Pickrell's</a>
+	Ancestry program, which is an implementation of the supervised
+	STRUCTURE model with a custom reference panel.
+	The source code is available
+	<a target="_blank" href="https://bitbucket.org/joepickrell/ancestry">here</a>.
+      </div>
+    </div>
+
+    <a name="ibd_algorithm"></a>
+    <div class="faq-item">
+      <div class="faq-q">
+	<h5>
+	  What is the Identity by Descent (IBD) detection method?
+	  <small><a href="#top">(top)</a></small>
+	</h5>
+      </div>
+      <div class="faq-a">
+	We use the <a target="_blank" href="http://www.cs.columbia.edu/~gusev/germline/">GERMLINE</a>
+	algorithm, developed at
+	<a target="_blank" href="http://www.cs.columbia.edu/~itsik/">
+	  Dr Itsik Pe'er's lab of Computational Genetics</a>.
+	<br/>
+	We currently require minimal segment length of 3
+
+	<a target="_blank" href="https://en.wikipedia.org/wiki/Centimorgan">cM</a>
+
+	to be included in the "Long Shared Segments" in the
+	Relative-Finder report.
+      </div>
+    </div>
+
+
+
+    <a name="vcf_info"></a>
+    <div class="faq-item">
+      <div class="faq-q">
+	<h5>
+	  What are VCF files and how to view them?
+	  <small><a href="#top">(top)</a></small>
+	</h5>
+      </div>
+      <div class="faq-a">
+	<a target="_blank" href="https://en.wikipedia.org/wiki/Variant_Call_Format">Variant Call Format (VCF)</a>
+
+	files are text files used in bioinformatics to store gene
+	sequence variations. See the <a href="/vcf-info">VCF
+	information</a> page to learn more.
+      </div>
+    </div>
+
+    <a name="imputation"></a>
+    <div class="faq-item">
+      <div class="faq-q">
+	<h5>
+	  What is "imputation"?
+	  <small><a href="#top">(top)</a></small>
+	</h5>
+      </div>
+      <div class="faq-a">
+	<a target="_blank" href="https://en.wikipedia.org/wiki/Imputation_(genetics)">Imputation in Genetics</a>
+
+	means using statistical inference to deduce unknown genotypes
+	based on known ones. See the <a href="/impute-info">Imputation
+	information</a> page to learn more.
+      </div>
+    </div>
+
+
+    <a name="geni"></a>
+    <div class="faq-item">
+      <div class="faq-q">
+	<h5>
+	  Importing Geni.com profile
+	  <small><a href="#top">(top)</a></small>
+	</h5>
+      </div>
+      <div class="faq-a">
+	See <a href="/geni-info">Geni.com information</a> page.
+      </div>
+    </div>
+
+
+    <a name="missing_relatives"></a>
+    <div class="faq-item">
+      <div class="faq-q">
+    	<h5>
+    	  I know that my relative X is in the website.
+          Why I can't see X on my relative matching report?
+    	</h5>
+      </div>
+      <div class="faq-a">
+        Here is a short guide on understanding the relative finder report.
+        <br/>
+        <br/>
+        <ol>
+          <li>
+            <b>Give it some time.</b>
+
+            Matches take time and depend on the number of users that
+            have joined DNA.Land. When we have a backlog, it can take
+            up to two weeks for matches to appear after a users' file
+            has been fully processed by our system. Once your file has
+            been uploaded, you will initially only see your ancestry
+            results and the results on the “Find Relatives” page will
+            appear to be empty. This does not necessarily mean that
+            you have no matches in our system. If you don't have <b>any</b>
+            matches currently, our suggestion is to check the website
+            again in a few days.
+          </li>
+
+
+          <li>
+            <b>Validate files.</b>
+
+            If you gave it a few days and still have no matches,
+            <i>
+              please remember that currently 10% of our users do not
+              have any matches in our system.  If you know about a
+              close relative who is also part of DNA.Land (and has
+              been for a while),
+            </i>
+
+            we encourage you to confirm that your relative is indeed
+            in the website and that both of you have uploaded the
+            right files. We have had several cases where users
+            managing multiple accounts uploaded a file that was meant
+            to correspond with a different person’s account.  We also
+            have had cases of users uploading incompatible file
+            formats to DNA.Land. While our system is tuned to catch
+            most of these errors early-on, it can still miss some of
+            the formats. Please read the instructions as to which
+            files from 23andMe, FTDNA, and Ancestry we currently
+            accept, and ask your match if they have uploaded the right
+            format.
+          </li>
+
+          <li>
+            <b>Understand our algorithm (relevant for 3rd cousin
+              matches and above):</b>
+
+            DNA.Land uses a stringent, statistical-testing based
+            approach to identifying matches. We use this approach in
+            order to avoid false matches and/or raising false hopes -
+            thereby preventing the potential waste of our users’
+            time. For example, a single, relatively short (e.g. 15cM)
+            segment is usually not enough for our algorithm to trigger
+            a match. We know that this creates some frustration for
+            users, but quantitative genetics provides little support
+            that this is a "valid" cousin.
+          </li>
+
+
+          <li>
+            <b>Contact us:</b>
+
+            If your case does not fall within the three categories
+            above, please contact us (info@dna.land) and we will be
+            happy to assist. Our regular support hours are on Mon,
+            Wed, and Fri during the morning (EST). Emails outside
+            these times are queued and answered chronologically.
+          </li>
+        </ol>
+      </div>
+
+    </div>
+
+
+    <a name="ambiguous"></a>
+    <div class="faq-item">
+      <div class="faq-q">
+        <h5>
+          There is a percentage of my Ancestry Report that is labeled “ambiguous.”
+          What does this mean?
+          <small><a href="#top">(top)</a></small>
+        </h5>
+      </div>
+
+      <div class="faq-a">
+        The ambiguous percentage of your Ancestry Report indicates a percentage of
+        your DNA file that did not match with any of the sources in our
+        reference panel. It is our hope that as our reference panel grows,
+        there will be less possibility for ambiguous percentages.
+      </div>
+    </div>
+
+
+
+    <a name="newancestryreport"></a>
+    <div class="faq-item">
+      <div class="faq-q">
+        <h5>
+          I just logged on to DNA.LAND and have noticed there is a new
+          Ancestry Report. I can’t figure out how to read it!
+          <small><a href="#top">(top)</a></small>
+        </h5>
+      </div>
+
+      <div class="faq-a">
+        For a detailed description of the new Ancestry Report, including
+        instructions on how to read each of the charts, we’d like to refer
+        you to <A HREF="https://medium.com/@dl1dl1/the-new-ancestry-report-f2844384259b#.5schsaeex">our recent blog post about the new report</A>.
+      </div>
+    </div>
+
+
+    <a name="fileformats"></a>
+    <div class="faq-item">
+      <div class="faq-q">
+        <h5>
+          I have accounts on 23andMe, Ancestry, and FTDNA, and I can’t figure out
+          which file formats you accept.
+          <small><a href="#top">(top)</a></small>
+        </h5>
+      </div>
+
+      <div class="faq-a">
+        From 23andMe, we accept: their "Raw Data" file<br>
+        From Ancestry, we accept: their "DNA Raw Data" file<br>
+        and from FTDNA, we accept: their “Build 37 Autosomal Raw Data” file
+      </div>
+    </div>
+
+
+
+
+    <a name="gmailtrick"></a>
+    <div class="faq-item">
+      <div class="faq-q">
+        <h5>
+          I have consent from a number of my family members to upload their
+          DNA files/I have DNA files from all three of the companies, but I
+          only have one e-mail address. Is there anyway I can make multiple
+          accounts with one e-mail?
+          <small><a href="#top">(top)</a></small>
+        </h5>
+      </div>
+
+      <div class="faq-a">
+        We can currently handle a single genotype file per user/account as
+        part of the consent process. But, if you are able to use a Gmail
+        account, there is a trick that will allow you to create all your
+        accounts using one email address. Say that your Gmail address is
+        dna.land.user@gmail.com. To upload another family member (say your
+        mother) to DNA.Land, create an account with the email
+        dna.land.user+mom@gmail.com. Though it may look weird, DNA.Land
+        will accept this as a valid email account. When we send the
+        validation email to dna.land.user+mom@gmail.com, Google will
+        redirect the message to YOUR account (dna.land.user@gmail.com).
+        You can do that for as many genomes as you’d like, all
+        under one Gmail account.
+      </div>
+    </div>
+
+
+
+
+    <a name="genesforgood"></a>
+    <div class="faq-item">
+      <div class="faq-q">
+        <h5>
+          I have a 23andMe formatted file from Genes For Good. Why can’t
+          I upload it to DNA.LAND?
+          <small><a href="#top">(top)</a></small>
+        </h5>
+      </div>
+
+      <div class="faq-a">
+        At this time, we are only able to accept files directly from
+        Ancestry, FTDNA, and 23andMe. We look forward to welcoming other
+        communities into DNA.LAND at some point in the future!
+      </div>
+    </div>
+
+
+
+
+    <a name="doesnotinclude"></a>
+    <div class="faq-item">
+      <div class="faq-q">
+        <h5>
+          I have just looked at the new Ancestry Report, and I am confused by
+          the text that reads "Does Not Include."
+          <small><a href="#top">(top)</a></small>
+        </h5>
+      </div>
+
+      <div class="faq-a">
+        "Does not include" states populations that are NOT part of the
+        category, but appear in the geographical vicinity. We tested your
+        genome with these populations. We list them in order to contrast
+        between close categories (e.g. Southwest Europe and Northwest
+        Europe).
+      </div>
+    </div>
+
+
+
+    <a name="ancientandrecent"></a>
+    <div class="faq-item">
+      <div class="faq-q">
+        <h5>
+          What is the difference between an "Ancient" match and a
+          "Recent" match?
+          <small><a href="#top">(top)</a></small>
+        </h5>
+      </div>
+
+      <div class="faq-a">
+        "Ancient" matches are matches due to population
+        background (many ancient relatives) rather than a
+        recent single ancestor ("Recent" match).
+      </div>
+    </div>
+
+
+
+    <a name="conceptualize"></a>
+    <div class="faq-item">
+      <div class="faq-q">
+        <h5>
+          How does DNA.LAND conceptualize Ancestry?
+          <small><a href="#top">(top)</a></small>
+        </h5>
+      </div>
+
+      <div class="faq-a">
+        We’d like to refer you to <A HREF="https://medium.com/@dl1dl1/what-is-ancestry-842109cb8ebd#.v6vc8vcwj">
+          this blog post from one of our lead scientists, Dr. Joe Pickrell</A>.
+      </div>
+    </div>
+
+
+    <a name="different"></a>
+    <div class="faq-item">
+      <div class="faq-q">
+        <h5>
+          Why are the results of my Ancestry Report different from those
+          I’ve found on other services?
+          <small><a href="#top">(top)</a></small>
+        </h5>
+      </div>
+
+      <div class="faq-a">
+        Think of your genome as a beam of light. The reference
+        panel of each service’s algorithm acts as a prism that decomposes
+        this beam of light to its potential components. Since each prism
+        has different physical properties, the rainbows they produce will
+        all be at least a little bit different.
+        As each reference panel has its own strengths and caveats,
+        it is best to observe your genomes through as many prisms as you
+        can. Only in this way can you better illuminate your past.
+      </div>
+    </div>
+
+
+
+    <a name="disagree"></a>
+    <div class="faq-item">
+      <div class="faq-q">
+        <h5>
+          I strongly disagree with the name of one or more of my Ancestry
+          Composites. Why were they given the wrong names?
+          <small><a href="#top">(top)</a></small>
+        </h5>
+      </div>
+
+      <div class="faq-a">
+        Our process of creating Ancestry groups involves grouping
+        specific ancestries into populations based on genetic similarity.
+        After we have the groupings, we then choose names for them.  This
+        is a difficult and delicate task, as most of the groupings we have
+        devised do not yet have existing names.  Rather than creating new
+        population names from scratch, we strive to find the closest and
+        most accurate existing name that we can.  Sometimes this has
+        meant giving names to Ancestry groups that aren't necessarily
+        true of all the groupings’ subpopulations. One example of this
+        is the inclusion of Turks in "Central Indoeuropean" even though
+        they speak a Turkic language. Another example of this is
+        describing the Kalmyk as "East Turkic" even though they
+        live near the black sea –west of the "Mid Turkic" peoples.
+        The names of our Ancestry Composites are there for your
+        convenience.  We appreciate your understanding of the difficulty
+        of this task. For greater specificity, we recommend examining the
+        "includes" and "does not include" lists.
+      </div>
+    </div>
+
+    <a name="tbi"></a>
+    <div class="faq-item">
+      <div class="faq-q">
+        <h5>
+          What are <b>TBI (VCF Tabix)</b> files?
+          <small><a href="#top">(top)</a></small>
+        </h5>
+      </div>
+
+      <div class="faq-a">
+        TBI files (Also called VCF Tabix or VCF Index files) are
+        auxiliary files containing supplementary data about imputed
+        VCF files.  By themselves, they do not provide any additional
+        genotyping information. However, some programs and/or websites
+        requires both VCF and TBI files as input - in which case
+        you'll be asked to download both the VCF file and the TBI file
+        to your computer.
+
+        <br/> To learn more about VCF files, see the
+        <a href="/vcf-info">VCF Information</a> page.
+      </div>
+    </div>
+
+
+    <br/>
+    <br/>
+    <br/>
+
+
+
+    <p>
+      For any questions, please email
+      <a href="mailto:info@dna.land">info@dna.land</a>.
+    </p>
+
+    {# NOTE: If user has javascript enabled, the 'onclick'
+             event should override the href and the user
+             will be taken back to the page he/she came from.
+             If javascript is disabled, the user will be
+             returned to the main page. #}
+    <a href="/" data-action="back" onclick="goBack();"
+       class="btn btn-primary pull-right">
+      Back
+    </a>
+
+
+  </section>
+
+</main>
+{% endblock %}
+
+{% block js %}
+<script>
+function goBack() {
+    window.history.back();
+}
+</script>
+{% endblock %}

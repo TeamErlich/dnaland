@@ -1,0 +1,340 @@
+
+// Ancestry Report
+
+// -----------------------------------------------------------------------------
+// -- Config
+// -----------------------------------------------------------------------------
+
+// Chart Settings
+var _AC_HEIGHT           = 300
+var _AC_WIDTH            = 300 + 50 // margin of 50
+var _AC_RADIUS           = Math.min(_AC_WIDTH, _AC_HEIGHT) / 2
+var _AC_OPACITY_ON_HOVER = 0.3
+//
+var _AC_LEGEND_HEIGHT    = 50
+var _AC_LEGEND_WIDTH     = 250
+var _AC_LEGEND_MARGIN    = 10
+var _AC_LEGEND_RADIUS    = 5
+// Map Settings
+var _AM_WIDTH            = 600
+var _AM_HEIGHT           = 500
+// General Settings
+var _A_COLORSCHEME       = 1
+
+// Chart - Define available colors & colors used
+var data_json = {"children":[]}
+
+// -----------------------------------------------------------------------------
+// Country Data + Colors
+// -----------------------------------------------------------------------------
+var country_colors = {}
+var ac_colors = {}
+if(_A_COLORSCHEME == 1) {
+    var ac_colors_all = d3.scale.category20c().range()
+    ac_colors_all.splice(3,1)    
+} else if(_A_COLORSCHEME == 2) {
+    ac_colors_all = {
+        "ARABIAN":                  "#3182bd",
+        "ASHKENAZI":                "#6baed6",
+        "BALOCHI-MAKRANI-BRAHUI":   "#9ecae1",
+        "BANTUKENYA":               "#e6550d",
+        "BANTUNIGERIA":             "#fd8d3c",
+        "BIAKA":                    "#fdae6b",
+        "CAFRICA":                  "#fdd0a2",
+        "CAMBODIA-THAI":            "#31a354",
+        "CSAMERICA":                "#74c476",
+        "CYPRUS-MALTA-SICILY":      "#a1d99b",
+        "EAFRICA":                  "#c7e9c0",
+        "EASIA":                    "#756bb1",
+        "EASTSIBERIA":              "#9e9ac8",
+        "FINNISH":                  "#bcbddc",
+        "GAMBIA":                   "#dadaeb",
+        "GUJARAT":                  "#636363",
+        "HADZA":                    "#969696",
+        "HAZARA-UYGUR-UZBEK":       "#bdbdbd",
+        "ITALY-BALKANS":            "#d9d9d9",
+        "JAPAN-KOREA":              "#3182bd",
+        "KALASH":                   "#6baed6",
+        "MENDE":                    "#9ecae1",
+        "NAFRICA":                  "#e6550d",
+        "NCASIA":                   "#fd8d3c",
+        "NEAREAST":                 "#fdae6b",
+        "NEASIA":                   "#fdd0a2",
+        "NEEUROPE":                 "#31a354",
+        "NEUROPE":                  "#74c476",
+        "NGANASAN":                 "#a1d99b",
+        "OCEANIA":                  "#c7e9c0",
+        "PATHAN-SINDHI-BURUSHO":    "#756bb1",
+        "SAFRICA":                  "#9e9ac8",
+        "SAMERICA":                 "#bcbddc",
+        "SARDINIA":                 "#dadaeb",
+        "SEASIA":                   "#636363",
+        "SSASIA":                   "#969696",
+        "SWEUROPE":                 "#bdbdbd",
+        "TAIWAN":                   "#d9d9d9",
+        "TUBALAR":                  "#3182bd",
+        "TURK-IRAN-CAUCASUS":       "#6baed6"
+    }
+}
+// 
+var allCountries   = {
+    "ARABIAN":                  [ "Algeria", "Bahrain", "Comoros", "Djibouti", "Egypt", "Iraq", "Jordan", "Kuwait", "Lebanon", "Libya", "Morocco", "Mauritania", "Oman", "Palestine", "Qatar", "Saudi Arabia", "Somalia", "Sudan", "Syria", "Tunisia", "United Arab Emirates", "Yemen" ],
+    "ASHKENAZI":                [ "Israel" ],
+    "BALOCHI-MAKRANI-BRAHUI":   [ "Iran", "Pakistan", "Afghanistan" ],
+    "BANTUKENYA":               [ "Kenya" ],
+    "BANTUNIGERIA":             [ "Nigeria" ],
+    "BIAKA":                    [ "Papua New Guinea" ],
+    "CAFRICA":                  [ "Angola", "Cameroon", "Central African Republic", "Chad", "Congo", "Congo, the Democratic Republic of the", "Equatorial Guinea", "Gabon", "Sao Tome and Principe" ],
+    "CAMBODIA-THAI":            [ "Cambodia", "Thailand" ],
+    "CSAMERICA":                [ "Uruguay", "Argentina", "Paraguay", "Bolivia", "Peru", "Colombia", "Venezuela", "Guyana", "Suriname", "French Guiana" ],
+    "CYPRUS-MALTA-SICILY":      [ "Cyprus", "Northern Cyprus", "Malta", "Silicy" ],
+    "EAFRICA":                  [ "Burundi", "Djibouti", "Eritrea", "Ethiopia", "Kenya", "Madagascar", "Malawi", "Mozambique", "Rwanda", "Somalia", "South Sudan", "Tanzania", "Uganda", "Zambia", "Zimbabwe" ],
+    "EASIA":                    [ "China", "Japan", "Korea, Democratic People's Republic of", "Korea, Republic of", "Mongolia", "Russian Federation", "Taiwan", "Macao", "Fiji", "Indonesia", "Laos", "Marshall Islands" ],
+    "EASTSIBERIA":              [ "Siberia" ],
+    "FINNISH":                  [ "Finland" ],
+    "GAMBIA":                   [ "Senegal" ],
+    "GUJARAT":                  [ "India" ],
+    "HADZA":                    [ "Tanzania, United Republic of" ],
+    "HAZARA-UYGUR-UZBEK":       [ "Afghanistan", "Pakistan", "Uzbekistan" ],
+    "ITALY-BALKANS":            [ "Italy" ],
+    "JAPAN-KOREA":              [ "Japan", "Korea, Democratic People's Republic of", "Korea, Republic of" ],
+    "KALASH":                   [ "Pakistan" ],
+    "MENDE":                    [ "Sierra Leone", "Liberia" ],
+    "NAFRICA":                  [ "Algeria", "Egypt", "Libya", "Morocco", "Sudan", "Tunisia", "Western Sahara" ],
+    "NCASIA":                   [ "Kazakhstan", "Kyrgyzstan", "Uzbekistan", "Turkmenistan", "Tajikistan" ],
+    "NEAREAST":                 [ "Cyprus", "Egypt", "Iraq", "Iran, Islamic Republic of", "Israel", "Jordan", "Lebanon", "Palestine", "Syrian Arab Republic", "Turkey" ],
+    "NEASIA":                   [ "Japan", "Korea, Democratic People's Republic of", "Korea, Republic of", "Russian Federation", "Taiwan" ],
+    "NEEUROPE":                 [ "Russian Federation", "Ukraine", "Sweden", "Finland", "Belarus", "Poland", "Estonia", "Latvia", "Lithuania", ],
+    "NEUROPE":                  [ "Denmark", "Estonia", "Faroe Islands", "Finland", "Greenland", "Iceland", "Ireland", "Latvia", "Lithuania", "Northern Ireland", "Norway", "Scotland", "Sweden", "United Kingdom", "Wales" ],
+    "NGANASAN":                 [ "Russian Federation", "Ukraine" ],
+    "OCEANIA":                  [ "Australia", "Cook Islands", "Fiji", "Indonesia", "Kiribati", "Marshall Islands", "Federated States of Micronesia", "Naura", "New Zealand", "Niue", "Palau", "Papua New Guinea", "Samoa", "Solomon Islands", "Tonga", "Tuvalu", "Vanuatu" ],
+    "PATHAN-SINDHI-BURUSHO":    [ "India", "Pakistan" ],
+    "SAFRICA":                  [ "Botswana", "Lesotho", "Mozambique", "Namibia", "South Africa", "Swaziland", "Zambia", "Zimbabwe" ],
+    "SAMERICA":                 [ "Guyana", "Falkland Islands", "Uruguay", "Suriname", "French Guiana", "Paraguay", "Bolivia", "Chile", "Ecuador", "Peru", "Venezuela", "Argentina", "Colombia", "Brazil" ],
+    "SARDINIA":                 [ "Italy" ],
+    "SEASIA":                   [ "Brunei Darussalam", "Cambodia", "East Timor", "Indonesia", "Laos", "Malaysia", "Philippines", "Singapore", "Thailand", "Vietnam" ],
+    "SSASIA":                   [ "Afghanistan", "Bangladesh", "Bhutan", "India", "Kyrgyzstan", "Kazakhstan", "Maldives", "Nepal", "Pakistan", "Sri Lanka", "Tajikistan", "Turkmenistan", "Uzbekistan" ],
+    "SWEUROPE":                 [ "Portugal", "Spain", "Italy", "Greece", "Andorra", "Monaco", "Vatican City", "San Marino", "Malta" ],
+    "TAIWAN":                   [ "Taiwan" ],
+    "TUBALAR":                  [ "Tubalar" ],
+    "TURK-IRAN-CAUCASUS":       [ "Turkey", "Iran", "Armenia", "Azerbaijan", "Georgia" ]
+}
+// 
+var countryIDtoName = {
+    "ARABIAN":                  "Arabian",
+    "ASHKENAZI":                "Ashkenazi",
+    "BALOCHI-MAKRANI-BRAHUI":   "Balochi/Makrani/Brahui",
+    "BANTUKENYA":               "Kenya (Bantu)",
+    "BANTUNIGERIA":             "Nigeria (Bantu)",
+    "BIAKA":                    "BiAka",
+    "CAFRICA":                  "Central Africa",
+    "CAMBODIA-THAI":            "Cambodia/Thai",
+    "CSAMERICA":                "Central America",
+    "CYPRUS-MALTA-SICILY":      "Cyprus/Malta/Silicy",
+    "EAFRICA":                  "Eastern Africa",
+    "EASIA":                    "East Asia",
+    "EASTSIBERIA":              "East Sibera",
+    "FINNISH":                  "Finnish",
+    "GAMBIA":                   "Gambia",
+    "GUJARAT":                  "Gujarat",
+    "HADZA":                    "Hadza",
+    "HAZARA-UYGUR-UZBEK":       "Hazara/Uygur/Uzbek",
+    "ITALY-BALKANS":            "Italy/Balkans",
+    "JAPAN-KOREA":              "Japan/Korea",
+    "KALASH":                   "Pakistani",
+    "MENDE":                    "Mende",
+    "NAFRICA":                  "North Africa",
+    "NCASIA":                   "North Central Asia",
+    "NEAREAST":                 "Near East",
+    "NEASIA":                   "North East Asia",
+    "NEEUROPE":                 "North East Europe",
+    "NEUROPE":                  "Northern Europe",
+    "NGANASAN":                 "Nganasan",
+    "OCEANIA":                  "Oceania",
+    "PATHAN-SINDHI-BURUSHO":    "Pathan/Sindhi/Burusho",
+    "SAFRICA":                  "South Africa",
+    "SAMERICA":                 "South America",
+    "SARDINIA":                 "Sardinia",
+    "SEASIA":                   "South East Asia",
+    "SSASIA":                   "South Asia",
+    "SWEUROPE":                 "South West Europe",
+    "TAIWAN":                   "Taiwan",
+    "TUBALAR":                  "Tubalar",
+    "TURK-IRAN-CAUCASUS":       "Turk/Iran/Caucasus"
+}
+
+// -----------------------------------------------------------------------------
+// -- Ancestry Chart
+// -----------------------------------------------------------------------------
+
+// Define ancestry chart
+var ac = d3.select("#ancestry-chart")
+    .append("svg:svg")
+    .attr("height", _AC_HEIGHT)
+    .attr("width", _AC_WIDTH)
+    .append("svg:g")
+    .attr("transform", "translate(" + _AC_WIDTH / 2 + "," + _AC_HEIGHT / 2 + ")")
+    .attr("id", "ac-c");
+
+// Ancestry Chart - Display 
+function ac_display(data)
+{
+    //
+    ac.data([data]).selectAll("path")
+        .data(
+            d3.layout.partition()
+                .size([Math.PI*2, _AC_RADIUS*_AC_RADIUS])
+                .value(function(v) { return v.percentage; })
+            .nodes)
+        .enter().append("svg:path")
+        .attr("d", d3.svg.arc()
+            .startAngle(function(v)  { return v.x; })
+            .endAngle(function(v)    { return v.x + v.dx; })
+            .innerRadius(function(v) { return Math.sqrt(v.y)-30; })
+            .outerRadius(function(v) { return Math.sqrt(v.y + v.dy); })
+        )
+        // Don't show center
+        .attr("display", function(v) { return v.depth ? null : "none"; })
+        // Set color of each part of chart
+        .style("fill", function(v) { return ac_colors[v.type]; })
+        // Define mouse over
+        .on("mouseover", ac_mouseover)
+
+
+    // Define on mouse out event
+    d3.select("#ac-c").on("mouseleave", ac_mouseleave);
+
+    // Show legend
+    ac_legend();
+
+    // Show map
+    am_display();
+}
+
+// Ancestry Chart - On mouse over, highlight
+function ac_mouseover(path)
+{
+    // Set opacity to 0.5 only to paths not being hovered
+    ac.selectAll("path").each(function(ancestry)
+    {
+        if(ancestry.type == path.type)
+            d3.select(this).style("opacity", 1)
+        else
+            d3.select(this).style("opacity", _AC_OPACITY_ON_HOVER)
+    })
+
+    // Show % ancestry + ancestry type
+    tmpStr = path.value < 1 ? "< 1%" : path.value + "%"
+    d3.select("#ac-hover").style("visibility", "")
+    d3.select("#ac-hover-txt").html(countryIDtoName[path.type] + ": " + tmpStr)
+}
+
+// Ancestry Chart - On mouse out, set everything back to opacity 1
+function ac_mouseleave(path)
+{
+    // Hide text that shows ancestry name + %
+    d3.select("#ac-hover").style("visibility", "hidden");
+
+    // Set all paths to opacity 1
+    d3.selectAll("path").style("opacity", 1)
+}
+
+// Show legend
+function ac_legend()
+{
+    var legend = d3.select("#legend").append("svg:svg")
+        .attr("height", d3.keys(ac_colors).length * (_AC_LEGEND_MARGIN + _AC_LEGEND_HEIGHT))
+        .attr("width", _AC_LEGEND_WIDTH)
+        .selectAll("g")
+        .data(d3.entries(ac_colors))
+        .enter().append("svg:g")
+        .attr("transform", function(d, i) { return "translate(0," + i * (_AC_LEGEND_MARGIN + _AC_LEGEND_HEIGHT) + ")"; });
+
+    // Draw background rectangles
+    legend.append("svg:rect")
+        .attr("height", _AC_LEGEND_HEIGHT)
+        .attr("width", _AC_LEGEND_WIDTH)
+        .attr("rx", _AC_LEGEND_RADIUS)
+        .attr("ry", _AC_LEGEND_RADIUS)
+        .style("fill", function(v) { return v.value; })
+
+    // Write text in rectangles
+    legend.append("svg:text")
+        .attr("x", _AC_LEGEND_WIDTH / 2)
+        .attr("y", _AC_LEGEND_HEIGHT / 2)
+        .attr("dy", "0.35em")
+        .attr("text-anchor", "middle")
+        .style("fill", function(v) { return '#fff'; })
+        .text(function(v) {
+            for(i in data_json.children){
+                if(data_json.children[i].type==v.key){
+                    p=data_json.children[i].percentage;
+                    break;
+                }
+            };
+            return countryIDtoName[v.key] + ' (' + p + '%)';
+        });
+}
+
+// -----------------------------------------------------------------------------/
+/ -- Ancestry Map
+// -- Note: here height is set to width, and then svg is cropped
+// -----------------------------------------------------------------------------
+
+function am_display()
+{
+
+    // Generate colors for each country
+    for(i = 0; i < data_json.children.length; i++)
+    {
+        ancestry = data_json.children[i].type
+        color = ac_colors[ancestry]
+
+        for(k in allCountries[ancestry])
+            country_colors[allCountries[ancestry][k]] = color
+    }
+    // alert(JSON.stringify(country_colors))
+
+    // Define d3 objects
+    var projection = d3.geo.mercator()
+        .scale((_AM_WIDTH + 1) / 2 / Math.PI)
+        .translate([_AM_WIDTH / 2, _AM_WIDTH / 2])
+        .precision(.1);
+    var canvas = d3.select("#ancestry-map").append("canvas")
+        .attr("width", _AM_WIDTH)
+        .attr("height", _AM_HEIGHT);
+    var c = canvas.node().getContext("2d");
+    var path = d3.geo.path()
+        .projection(projection)
+        .context(c);
+
+    // Load world map and country names
+    queue()
+        .defer(d3.json, "/static/ancestry/data/world-110m.json")
+        .defer(d3.tsv, "/static/ancestry/data/world-country-names.tsv")
+        .await(function(error, world, names)
+        {
+            if (error)
+                throw error;
+
+            // Define land & countries
+            var land      = topojson.feature(world, world.objects.land)
+            var countries = topojson.feature(world, world.objects.countries).features
+            var borders   = topojson.mesh(world, world.objects.countries, function(a, b) { return a !== b; })
+            var i = -1, n = countries.length;
+            //
+            countries = countries.filter(function(d) {
+                return names.some(function(n) {
+                    if (d.id == n.id) return d.name = n.name;
+                });
+            }).sort(function(a, b) { return a.name.localeCompare(b.name); });
+
+            // Set default country colors
+            c.fillStyle = "#aaa", c.beginPath(), path(land), c.fill();
+
+            // Color each country according to ancestry 
+            for(i in countries)
+                if(countries[i].name in country_colors)
+                    c.fillStyle = country_colors[countries[i].name], c.beginPath(), path(countries[i]), c.fill();
+        });
+}

@@ -1,0 +1,121 @@
+{% extends "master.html" %}
+
+{% block css %}
+{# <link href="/static/css/profile.css" rel="stylesheet"> #}
+<link rel="stylesheet" type="text/css" href="/static/ancestry/css/styles.css">
+{% endblock %}
+
+{% block navbartitle %}
+DNA.LAND - Ancestry
+{% endblock %}
+
+{% block content %}
+<main class="" role="main" tabindex="-1">
+
+  <section class="container fluid-container panel">
+    <h4>
+      Ancestry Report for {{ current_user.first_name }} {{ current_user.last_name }}
+    </h4>
+    <a target="_blank" href="/faq#ancestry_other">ancestry questions?</a>
+    <br/>
+    <br/>
+  </section>
+
+  <section class="container fluid-container user-space">
+    <div class="row">
+      <div class="col-md-12 col-xs-12 box user-directory">
+
+        <div class="panel panel-default">
+          <div class="panel-heading">Ancestry Composition</div>
+          <div class="panel-body">
+
+            {# Ancestry Chart #}
+            <div id="ancestry-chart">
+              <div id="ac-username">
+		 {{ current_user.first_name }}<br>{{ current_user.last_name }}
+              </div>
+              <span id="ac-hover-txt"></span><br/>
+            </div>
+
+	    <table id="htmllegend">
+	    </table>
+
+          </div>
+        </div>
+      </div>
+  </section>
+
+
+  <section class="container fluid-container user-space">
+    <div class="row">
+      <div class="col-md-12 col-xs-12 box user-directory">
+
+        <div class="panel panel-default">
+          <div class="panel-heading">Ancestry Map</div>
+          <div class="panel-body">
+
+	    {# World map #}
+	    <div id="map-zoom">
+	      <input type=button value="+" id="zoom-in"><br>
+	      <input type=button value="&ndash;" id="zoom-out">
+	    </div>
+	    <span id=tabholder>
+	      <a class=tab id=colortab>Colors: Same as Above</a>
+	      <a class=tab id=greytab>Greyscale: Indicating Percentage</a>
+	      <a class="tab current" id=hybridtab>Both at Once</a>
+	    </span>
+	    <div class=mapborder>
+	      <div id="ancestry-map"></div>
+	      <div id="map-details"></div>
+	    </div>
+	  </div>
+
+        <div class="panel panel-default">
+          <div class="panel-heading">Details</div>
+          <div class="panel-body" id="details"></div>
+	</div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="container fluid-container panel">
+    <br/>
+    <a class="btn btn-default btn-sm" href="/main">
+      Back
+    </a>
+    <br/>
+    <br/>
+  </section>
+
+</main>
+{% endblock %}
+
+{% block js %}
+{#
+<script src="/static/js/profile.js"></script>
+#}
+<script src="/static/ancestry/js/clusters.js"></script>
+
+<script type="text/javascript" src="/static/ancestry/js/d3.v3.min.js"></script>
+<script type="text/javascript" src="/static/ancestry/js/queue.min.js"></script>
+<script type="text/javascript" src="/static/ancestry/js/topojson.min.js"></script>
+<script type="text/javascript" src="/static/ancestry/data/popsources.js"></script>
+<script src="/static/ancestry/js/jquery-1.11.3.min.js"></script>
+
+<!-- DNA.land libraries -->
+<script type="text/javascript" src="/static/ancestry/js/ancestry.report.js"></script>
+
+<!-- On page load -->
+<script type="text/javascript">
+var version = {{ version }};
+var raw_data = {{ anc_data_json | safe}};
+
+$(function()
+{
+  display_all();
+});
+
+</script>
+
+{% endblock %}

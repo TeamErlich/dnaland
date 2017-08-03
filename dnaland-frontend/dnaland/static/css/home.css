@@ -1,0 +1,60 @@
+body {
+    background: #FFFFFF;
+}
+
+main section {
+    min-height: 440px;
+    background: floralwhite;
+}
+
+main section.opener {
+    margin: 0 auto 20px;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    align-items: center;
+}
+
+main section.opener > div {
+    margin: 0 auto;
+    opacity: 0;
+    will-change: opacity;
+    text-align: center;
+}
+
+.loaded main section.opener > div {
+    opacity: 1;
+}
+
+main section.information {
+    padding: 0;
+}
+
+main section.information .carousel-inner > .item {
+    height: 440px;
+}
+
+img.digest-logo {
+    cursor: none;
+}
+
+img.headings-pink-ribbon {
+    height: 350px;
+    width: 216px;
+    margin: 20px;
+}
+
+main section.about .about-profile {
+    text-align: center;
+}
+
+main section.about .about-profile .profile-head {
+    margin: 10% auto;
+    width: 80%;
+    padding-bottom: 80%;
+    border-radius: 50%;
+}
+

@@ -1,0 +1,113 @@
+{% extends "master.html" %}
+
+{% block navbartitle %}
+DNA.LAND - Relatives of Relatives Finder Information
+{% endblock %}
+
+{% block content %}
+<main class="" role="main" tabindex="-1">
+
+  <section class="container fluid-container greeting panel">
+    <h4>
+      Relatives of Relatives Finder Information (v0.1):
+    </h4>
+
+    <p>
+   
+    This report displays the relatives of your direct relatives, producing a broader list of your more distant relatives. This allows you to discover more potential relatives who may not directly share DNA segments with you, or may not pass our statistical threshold for determining recent ancestry. The Relatives of Relatives report may also be useful in cases where a direct relative of yours is unresponsive or possess little information about your family history. This is currently an experimental feature.
+    </p>
+
+    <p>
+      A typical report will look like the following:
+    </p>
+    <center>
+      <img style="max-width:100%" src="static/img/relatives-of-relatives-info-1.jpg" />
+    </center>
+
+   <h4>
+      Interpreting your relative finder report:
+    </h4>
+    <p>
+      <ul/>
+      <li>
+        <strong>Endpoint Relative</strong>:A relative of your relative. Users are sorted according to the sum of the relationship degrees d1 and d2.
+      </li>
+      <li>
+        <strong>Via Relative</strong>:Your direct relative through whom the Endpoint Relative was discovered. For example, if you are related to Alice and Alice is related to Bob, then Alice is your Via relative, and Bob is your Endpoint relative.
+      </li>
+      <li>
+	<strong>View my Geni Profile</strong>: If the matching user
+	imported his Geni.com profile into DNA.Land, clicking on this link will
+	show the user's geni.com profile.
+	<a href="/geni-info">Learn more about importing Geni.com profiles</a>.
+      </li>
+      <li>
+        <strong>Via Relationship Degree</strong>: This number represents the estimated <a href="https://en.wikipedia.org/wiki/Coefficient_of_relationship">degree of relationship</a> between you and the Via relative. The report also suggests a possible genealogical relationship that could match the degree of relationship, based on dates of birth. This is left blank if either user has decided not to share dates of birth.
+      </li>
+      <li>
+          <strong>Via to Endpoint Degree</strong>: This number represents the estimated <a href="https://en.wikipedia.org/wiki/Coefficient_of_relationship">degree of relationship</a> between your Via relative and the discovered Endpoint relative. The report also suggests a possible genealogical relationship that could match the degree of relationship, based on dates of birth. This is left blank if either user has decided not to share dates of birth.
+      </li>
+      <li>
+          <strong>Certainty</strong>: "High" is displayed only if both the <font color="blue">d1</font> and <font color="red">d2</font> relationships have very high likelihoods of being true matches. "Low" is displayed if one or both of the relationships are suspected, but with a lower statistical likelihood.
+      </li>
+      <li>
+        <strong>Total Intersection Length</strong>: This number denotes the sum of the total shared segments between you and the Endpoint relative, measured in centiMorgans.
+                                                    This is an estimated value (see "Note on Relatives of Relatives segment matching" below).
+      </li>
+      <li>
+        <strong>Intersecting Shared Segments between You and Endpoint</strong>: This graph shows all all autosomes and the positions of the segments you share with the Endpoint relative.
+                                                                                These segments are found by intersecting the set of segments shared by you and the Via relative, and the set
+                                                                                shared by the Via relative and Endpoint relative.
+      </li>
+
+      <li>
+        <strong>Table of intersecting segments</strong>: In order to view the actual locations of the intersecting segments, click on the "SHOW/HIDE TABLE" button under the image. The locations are reported using Build 373/hg19 coordinates of the human genome.
+      </li>
+
+
+    <center>
+      <img style="max-width:100%; width:300px; height:360px;" src="static/img/relatives-of-relatives-info-2.jpg"  /><br>
+      <strong>Table of intersecting segments between you and the Endpoint relative</strong><br>
+       (table is truncated for presentation purposes)
+    </center>
+
+    </ul>
+    </p>
+
+
+
+    <h5>Things to consider</h5>
+    This report holds the same caveats regarding privacy and discovery of sensitive information as the
+    <a href="/relatives-of-relatives-info">Relative Finder report</a>. Additionally, since the aim of this report
+    is to potentially widen your network of relatives, please note this also exposes your contact and segment
+    matching information to a larger number of users.
+    
+    <br/><br/>
+    
+    As in the Relatives report, participation in the Relatives of Relatives report is optional; if you choose not
+    to participate, your profile will not be visible or discovered as a relative of another user. However, you must
+    participate in order to view your own report. Please note that you may still participate in the original Relative
+    finder if you choose not to participate in the Relatives of Relatives report.
+    
+    <br/><br/>
+
+    <h5>Note on Relatives of Relatives segment matching</h5>
+    The size and location of intersecting segments are only estimates because we do not perform phasing
+    as part of our analysis. This means it is possible that you and your Via relative, and your Via and
+    Endpoint relatives, share a particular segment from different maternal and paternal chromosomes,
+    rather than the same chromosome.
+    Additionally, because a recent segment in one pair may intesect an ancestral segment in another,
+    we no longer distinguish between recent and ancestral segments post-intersection.
+
+    <br/><br/>
+
+    <a href="/main" data-action="back"
+       class="btn btn-primary pull-right">
+      Close
+    </a>
+
+
+  </section>
+
+</main>
+{% endblock %}

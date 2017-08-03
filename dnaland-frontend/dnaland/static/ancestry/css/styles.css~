@@ -1,0 +1,74 @@
+/* ---------------------------------------------------------------------- */
+/* Fonts */
+/* ---------------------------------------------------------------------- */
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Lato Light'), local('Lato-Light'), url(/static/ancestry/fonts/Lato/Lato-Light.woff2) format('woff2'), url(/static/ancestry/fonts/Lato/Lato-Light.woff) format('woff');
+}
+/* @import url("https://fonts.googleapis.com/css?family=Lato:300"); */
+
+/* ---------------------------------------------------------------------- */
+/* General */
+/* ---------------------------------------------------------------------- */
+html {
+  font-family: sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-size:   15px;
+  line-height: 1.4;
+  font-family: "Lato", Arial, sans-serif;
+}
+
+h1,h2,h3,h4,h5,h6 { font-weight: 300;             }
+h2                { border-bottom:1px solid #ccc; }
+
+/* Path for chart + map */
+path {
+  stroke: #fff;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Ancestry chart */
+/* ---------------------------------------------------------------------- */
+#ac-hover {
+  width: 140px;
+  top:   270px;
+  left:  215px;
+  color: #333;
+  position: absolute;
+  text-align: center;
+}
+
+#ancestry-chart { float:left; }
+
+#legend { float:left; margin-left: 50px; }
+
+
+.graticule {
+  fill: none;
+  stroke: #777;
+  stroke-opacity: .5;
+  stroke-width: .5px;
+  pointer-events: none;
+}
+
+.timezones {
+  fill: #222;
+}
+
+.timezones :hover {
+  fill: orange;
+}
+
+.boundary {
+  fill: none;
+  stroke: #fff;
+  stroke-width: .5px;
+  pointer-events: none;
+}
+

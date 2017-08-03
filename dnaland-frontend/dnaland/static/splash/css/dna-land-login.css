@@ -1,0 +1,15 @@
+div#loginformrow {
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
+div.form-box {
+    padding-top: 1em;
+    padding-bottom: 3em;
+    background-color: #E2E2E2;
+}
+
+/* Flash Error Messages in the Login/Register Page */
+div.flash {
+    color: red;
+}

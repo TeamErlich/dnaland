@@ -7,7 +7,17 @@ To view the pages, run "python run.py" on your local machine or a server, and in
 
 
 ancestry-computation:
-The algorithm developed by Joe Pickrell to compute ancestry composition from input genotype files on DNA.Land. This is based on STRUCTURE [1] by Pritchard et al. The output consists of a list of ancestry groups and percentages.
+The algorithm developed by Joe Pickrell to compute ancestry composition from input genotype files on DNA.Land. This is based on STRUCTURE [1] by Pritchard et al. The output .Q file consists of a list of ancestry groups and percentages. In addition to the provided instructions, you may need to install the following packages:
+
+sudo apt-get install gsl-bin libgsl-dev
+
+(installing htslib)
+wget https://github.com/samtools/htslib/releases/download/1.5/htslib-1.5.tar.bz2
+tar -xjvf htslib-1.5.tar.bz2
+cd htslib-1.5
+make
+sudo make install
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:[your htslib path]
 
 
 germline-relative-matching:

@@ -9,8 +9,14 @@ To view the pages, run "python run.py" on your local machine or a server, and in
 ancestry-computation:
 The algorithm developed by Joe Pickrell to compute ancestry composition from input genotype files on DNA.Land. This is based on STRUCTURE [1] by Pritchard et al. The output consists of a list of ancestry groups and percentages.
 
+
 germline-relative-matching:
-A modification of the Germline algorithm [2] by Gusev et al. to iteratively process individual users as they arrive to DNA.Land. For each user, O(N) comparisons to the existing user set are performed, rather than O(N^2) comparisons.
+A modification of the Germline algorithm [2] by Gusev et al. to iteratively process individual users as they arrive to DNA.Land. For each user, O(N) comparisons to the existing user set are performed, rather than O(N^2) comparisons. In addition to the instructions provided by Gusev et al., you may need to install the following packages:
+
+sudo apt-get install openssl
+sudo apt-get install libssl-dev
+sudo apt-get install libleveldb-dev
+
 
 ersa-relative-matching:
 A modification of the ERSA algorithm [3] by Huff et al. for identifying close relatives by IBD segments. This includes some improvements in code efficiency and features like identification of self-matches, or users who uploaded their genome to DNA.Land twice, and improved differentation between avuncular and first degree relationships such as full siblings.

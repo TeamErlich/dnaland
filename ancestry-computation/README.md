@@ -1,6 +1,10 @@
 Ancestry is a program for inferring the "genetic ancestry" of an individual from their genotype or sequence data. It requires a reference set of labeled individuals, and models the test individual as a mixture of these reference sets. The underlying model is the [Pritchard, Stephens, and Donnelly STRUCTURE model](http://www.ncbi.nlm.nih.gov/pubmed/10835412). 
 
-More detailed documentation to come. 
+Copyright (c) 2016 by
+- Joe Pickrell (jkpickrell@nygenome.org)
+- Daniel Speyer (dspeyer@nygenome.org)
+
+License: GNU GPL v3 (see LICENSE)
 
 #Dependencies
 1. [The GNU Scientific Library](http://www.gnu.org/software/gsl/)

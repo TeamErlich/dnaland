@@ -1,6 +1,8 @@
 import os, shutil, sys, json
-from flask import Flask
+from flask import Flask, redirect, url_for
 from flask import render_template
+from dnaland.WebForms import GeniConnectForm
+from dnaland import app,csrf
 
 def ancestry_demo_data():
     d = [
@@ -35,7 +37,8 @@ def relatives_demo_data():
              {"chrom" : 18, "bpstart" : 35513797, "bpend" : 39503140, "pop_anc" : 0},
              {"chrom" : 22, "bpstart" : 35513797, "bpend" : 39503140, "pop_anc" : 1}
          ],"sig" : True, "name" : "John Example", "email" : "john@email.com", 
-         "total_numseg" :  10, "total_cm" : 100, "total_recent_cm" : 50, "longest_recent_seg" : 20
+         "total_numseg" :  10, "total_cm" : 100, "total_recent_cm" : 50, "longest_recent_seg" : 20,
+         "geni_profile_url": "https://www.geni.com/people/William-McKinley-25th-President-of-the-USA/6000000008127235311"
         },
         {"ind" : "User2", "d" : 7, "pot_rel" : "",
          "d_hist" : [0, 0, 0.04, 0.1, 0.2, 0.3, 0.6, 0.8, 0.7, 0.6],
@@ -97,31 +100,7 @@ def relatives_of_relatives_demo_data():
         }
     return data, contact_info
 
-def create_dnaland_dummy_flask_app():
-    # Ensure we saver the files from the same location as the 'real'
-    # DNA.Land flask application.
-    path = os.path.dirname(os.path.realpath(__file__))
-    static_folder = path + "/dnaland/static"
-    template_folder = path + "/dnaland/templates"
-    if not os.path.exists(static_folder):
-        sys.exit("can't find static folder '%s'" % (static_folder))
-    if not os.path.exists(template_folder):
-        sys.exit("can't find template folder '%s'" % (template_folder))
-
-    app = Flask(__name__,
-                static_url_path='/static',
-                static_folder=static_folder,
-                template_folder=template_folder)
-    return app
-
-
-app = create_dnaland_dummy_flask_app()
-
-@app.route('/')
-def index():
-    return "Test"
-
-@app.route('/ancestry')
+@app.route('/profile/ancestry')
 def ancestry():
     [d,v] = ancestry_demo_data()
     return render_template('profile/ancestry.html',
@@ -130,7 +109,18 @@ def ancestry():
                             version=v,
                             meta={})
 
-@app.route('/relative-finder')
+
+@app.route('/profile/geni-connect',methods=['POST'])
+#@login_required
+def profile_geni_connect():
+    return redirect(url_for('profile'))
+
+@app.route('/profile/geni-disconnect',methods=['GET'])
+#@login_required
+def profile_geni_disconnect():
+    return redirect(url_for('profile'))
+
+@app.route('/profile/linkage')
 def relative_matching():
     meta={}
     data = relatives_demo_data()
@@ -143,7 +133,7 @@ def relative_matching_info():
     meta={}
     return render_template('profile/relative-finder-info.html',meta=meta)
 
-@app.route('/relatives-of-relatives')
+@app.route('/profile/network-segments-report')
 def relatives_of_relatives():
     meta={}
     data_graph,contact_info = relatives_of_relatives_demo_data()
@@ -155,5 +145,31 @@ def relatives_of_relatives():
 @app.route('/relatives-of-relatives-info')
 def relatives_of_relatives_info():
     return render_template('profile/relatives-of-relatives-info.html',meta={})
+
+@app.route('/faq')
+def faq_info():
+    return render_template("profile/faq.html",meta={})
+
+@app.route('/geni-info')
+def geni_info():
+    return render_template("profile/geni-info.html",meta={})
+
+@app.route('/')
+@app.route('/main')
+def profile():
+    meta={}
+    metrics= [
+	    {"metric_name": "percentile","metric_value": 2},
+	    {"metric_name": "points",    "metric_value": 10},
+	    {"metric_name": "genealogy", "metric_value" : 90 },
+	    {"metric_name": "genotype",  "metric_value" : 80 },
+	    {"metric_name": "phenotype", "metric_value" : 70 }
+	  ]
+    geniform = GeniConnectForm()
+    return render_template('profile/profile.html', meta=meta,
+                                current_user={"first_name":"Susan (Example User)","last_name":"Example"},
+                                metrics=metrics,
+                                geniform=geniform)
+
 
 app.run(host='0.0.0.0')

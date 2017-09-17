@@ -45,12 +45,12 @@
                     Ancestry Report
                   </td>
                   <td>
-                    {% if current_user.has_ancestry %}
+                    {##{% if current_user.has_ancestry %}##}
                     <a href="/profile/ancestry">view</a>
-                    {% else %}
+                    {##{% else %}
                     In Progress<br/>
                     (<a href="/faq#in_progress">where are my results?</a>)
-                    {% endif %}
+                    {% endif %}##}
                   </td>
                 </tr>
                 <tr>
@@ -195,6 +195,7 @@
 
         </div>
 
+        {#-
         {% if current_user.can_send_invites() %}
         <div class="panel panel-default">
           <div class="panel-heading">Invite a Friend</div>
@@ -204,6 +205,7 @@
           </div>
         </div>
         {% endif %}
+        -#}
 
       </div> {## right-side column (my reports) ##}
 

@@ -1,33 +1,35 @@
 Ancestry is a program for inferring the "genetic ancestry" of an individual from their genotype or sequence data. It requires a reference set of labeled individuals, and models the test individual as a mixture of these reference sets. The underlying model is the [Pritchard, Stephens, and Donnelly STRUCTURE model](http://www.ncbi.nlm.nih.gov/pubmed/10835412). 
 
+This program is the basis for the ancestry report on DNA.Land, a website for crowdsourcing genotypic data. Please visit the DNA.Land [website](https://dna.land) and [preprint](http://www.biorxiv.org/content/early/2017/05/09/135715) for more information.
+
 Copyright (c) 2016 by
 - Joe Pickrell (jkpickrell@nygenome.org)
 - Daniel Speyer (dspeyer@nygenome.org)
 
-License: GNU GPL v3 (see LICENSE)
-
-#Dependencies
+# Dependencies
 1. [The GNU Scientific Library](http://www.gnu.org/software/gsl/)
 2. [The Boost libraries](http://www.boost.org/)
 
-#Install:
+# Install
 
->./configure
+```
+./configure
+make
+```
 
->make
+# Arguments
 
-#Arguments
--i input matrix of allele counts in the reference populations (see Downloads)
+>-i input matrix of allele counts in the reference populations (see Downloads)
 
 this file must be gzipped.
 
--g23 23andMe-style genotype file of test individual
+>-g23 23andMe-style genotype file of test individual
 
 Alternative, use -gp for a pileup file (make sure you have run pileup *without* a reference genome)
 
--gp gzipped pileup file
+>-gp gzipped pileup file
 
-#Usage
+# Usage
 
 The standard way to use this software is to estimate the ancestry of a test individual using a pre-defined reference panel. A useful (albeit not perfect) reference panel is provided in the Downloads section. Coordinates for this reference panel are relative to hg19, note we perform no checks to ensure the coordinates of the input file are also on hg19, so please double-check this before running the software. 
 

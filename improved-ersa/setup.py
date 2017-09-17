@@ -12,7 +12,7 @@ AUTHOR = "Richard Munoz, Jie Yuan, Yaniv Erlich"
 AUTHOR_EMAIL = "rmunoz@columbia.edu, jyuan@columbia.edu, yaniv@cs.columbia.edu"
 MAINTAINER = "Richard Munoz"
 MAINTAINER_EMAIL = "rmunoz@columbia.edu"
-DOWNLOAD_URL = 'http://github.com/rmunoz12/ersa'
+DOWNLOAD_URL = 'https://github.com/TeamErlich/dnaland'
 LICENSE = 'GNU General Public License v3 (GPLv3)'
 
 VERSION = '1.1.2'

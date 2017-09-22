@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="author" content="Yaniv Erlich">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Geni Integration Example">
+
+    <title>Geni Integration Example</title>
+
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,400,400italic" type="text/css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" type='text/css'>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+
+    <style>
+      span#geni_connection_status {
+        color: blue;
+      }
+
+    </style>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="container">
+      <h1>Geni Integration Example</h1>
+
+      <div class="row">
+
+        <div class="col-md-12">
+	  Geni Connection Status:
+	  <span id="geni_connection_status">
+	    Unknwon
+	  </span>
+
+	  <div id="geni_connect_div">
+	    <a class="btn btn-primary" href="#" onclick="javascript:geni_connect();">
+	      Click to Connect to Geni
+	    </a>
+	    <br/>
+	    <br/>
+	    <div id="geni_profile_info">
+	      <pre id="geni_profile_data">Geni Profile: Unknown.
+Click 'Connect' to get profile information.
+
+Please ensure AdBlockers are disabled (or connection to Geni.com might fail).
+</pre>
+	    </div>
+	  </div>
+	</div>
+      </div>
+
+      <div class="row">
+	<div class="col-md-12">
+	  <h2>Overview</h2>
+
+	  <p>
+	    This website demonstrates how to use <a href="https://geni.com">geni.com</a>'s
+	    javascript API library to query public geni profiles.
+	    <br/>
+	    For source code visit our 
+	    <a href="https://github.com/TeamErlich/geni-integration-example">
+	      GitHub Repository
+	    </a>
+	  </p>
+
+
+	  <h3>Step 1: Login to Geni</h3>
+	  Clicking on the "connect" button above will show a pop-up
+	  window, allowing you to login to you Geni.com account.
+	  <br/>
+	  You username/password are secure and only transmitted to Geni.com's servers.
+	  <center>
+	  <img src="geni-login-window.png"/>
+	  </center>
+
+	  <h3>Step 2: Authorize Access</h3>
+	  For this website to access your public profile information,
+	  you need to authorize our application ("application" is a program
+	  or a website).
+	  <br/>
+	  Later on, you can always choose to de-authorize for the application
+	  and block future access by visiting <a href="https://geni.com">geni.com</a>.
+	  <br/>
+	  <center>
+	  <img src="geni-authorize-window.png"/>
+	  </center>
+
+
+	  <h3>Step 3: Results</h3>
+	  Once access is authorized, this web page will query your public
+	  profile information from the geni.com website, and display it here:
+	  <center>
+	  <img src="geni-result.png"/>
+	  </center>
+
+	</div>
+      </div>
+
+
+
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+          <hr/>
+          <h3>Contact</h3>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-2">
+          <a target="_blank" href="https://twitter.com/erlichya">
+            <i class="fa fa-twitter"></i>
+            @erlichya
+          </a>
+        </div>
+
+        <div class="col-lg-4 col-md-4 col-sm-4">
+          <a target="_blank" href="https://teamerlich.org">
+            <i class="fa fa-home"></i>
+            TeamErlich.org
+          </a>
+        </div>
+
+        <div class="col-lg-4 col-md-4 col-sm-4">
+          <a href="mailto:yaniv@cs.columbia.edu">
+            <i class="fa fa-envelope"></i>
+            yaniv@cs.columbia.edu
+          </a>
+        </div>
+      </div>
+
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+
+    </div> <!-- container -->
+
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="https://www.geni.com/jsdk.js"></script>
+
+<script>
+
+$(function(){
+    geni_initialize();
+});
+
+/* called at document.ready(), to initialize the geni object
+   and get connection's status. */
+function geni_initialize()
+{
+    /* See: https://www.geni.com/platform/developer/help/sdk_js?version=1 */
+
+    /* Initialize Geni's object */
+    Geni.init({
+        app_id: 'zKg02XK2atY1UUo67oEuTwXeK0R88gt18YokkQMg',
+        host: 'https://geni.com',
+        cookies:true,
+        logging:true
+    });
+
+    /* Setup Change Event Notification */
+    Geni.Event.bind('auth:statusChange', geni_status_changed);
+
+    console.log("Calling Geni.getStatus()")
+
+    /* Get the Geni-Login status */
+    Geni.getStatus(function(response) {
+        if(response.status == 'authorized') {
+            // User is logged in and has authorized your application.
+            // You can now make authorized calls to the API.
+            console.log("app is authorized");
+
+            // if we're authorized, get the profile data
+            geni_get_profile();
+
+        } else {
+            // User is either logged out, has not authorized the app or both.
+            console.log("app unauthorized/user logged-out");
+
+            // NOTE:
+            // The geni_status_changed() will be automatically called,
+            // thus there's no need to do anything here.
+        }
+    });
+}
+
+
+/* Called when the user clicks on the 'Connect' button */
+function geni_connect()
+{
+    console.log("Connecting to Geni.com");
+
+    Geni.connect(function(response) {
+        //Don't do anything here.
+        //Instead, when the status changes, the 'geni_status_changed()'
+        //will be called and handle the change.
+    });
+}
+
+
+/* called when geni's connection status changes,
+   will show/hide the connection button.
+
+   'status' will be either 'authorized', 'unauthorized' or 'unknown'
+*/
+function geni_status_changed(status)
+{
+    console.log("Geni status changed, new status = " + status);
+
+    $("#geni_connection_status").text(status);
+
+    if(status == 'authorized') {
+        // User is logged in and has authorized your application.
+        // You can now make authorized calls to the API.
+        geni_get_profile();
+    }  else {
+        // User canceled the popup
+    }
+}
+
+/* Called after the user connected to geni (and authorized the app),
+   to get the profile's information */
+function geni_get_profile()
+{
+    console.log("Getting geni user-profile...");
+
+    Geni.api('/profile', function(response) {
+        console.log("Got geni user-profile:");
+        // returns current user's profile data
+        // alert(response.name)
+        console.log(response);
+
+        $("#geni_profile_data").text(JSON.stringify(response,null,2));
+    });
+}
+
+
+</script>
+
+</body>
+</html>

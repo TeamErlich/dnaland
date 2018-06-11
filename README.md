@@ -6,7 +6,7 @@ A selection of source code for DNA.Land (https://dna.land), a website for crowds
 
 -`incremental-relative-matching`: A modification of the [GERMLINE](http://www.cs.columbia.edu/~gusev/germline/) package by Gusev et al., modified to allow more efficient processing of a continuous stream of new DNA.Land users.
 
--'improved-ersa': A re-implementation of the [ERSA](http://genome.cshlp.org/content/21/5/768.full) model by Huff et al., with some improvements to efficiency and modifications of probabilities for some relationships.
+-`improved-ersa`: A re-implementation of the [ERSA](http://genome.cshlp.org/content/21/5/768.full) model by Huff et al., with some improvements to efficiency and modifications of probabilities for some relationships.
 
 Further information can be found in README files in each folder.
 

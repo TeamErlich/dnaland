@@ -1,0 +1,20 @@
+{
+  "name": "DNA.LAND",
+  "version": "0.0.1",
+  "authors": [
+    "Kevin Shi <kshi@nygenome.org>"
+  ],
+  "description": "DNA.LAND front-end libraries",
+  "moduleType": [
+    "amd"
+  ],
+  "license": "MIT",
+  "homepage": "http://www.nygenome.org",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

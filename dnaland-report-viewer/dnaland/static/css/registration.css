@@ -1,0 +1,20 @@
+main section.registration {
+    padding: 0 20px 20px 20px;
+    margin: 20px auto;
+    min-height: 220px;
+}
+form.form-horizontal {
+    margin:40px 0;
+}
+form.form-horizontal div.form-group > div {
+    position: relative;
+}
+
+span.required {
+    vertical-align: text-bottom;
+    font-size: 16px;
+    color: #ff6347;
+    position: absolute;
+    right: 14px;
+    top: 2px;
+}

@@ -1,0 +1,402 @@
+/* override bootstrap */
+textarea, textarea.form-control, input.form-control, input[type=text], input[type=password], input[type=email], input[type=number], [type=text].form-control, [type=password].form-control, [type=email].form-control, [type=tel].form-control, [contenteditable].form-control {
+    -webkit-appearance: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border:1px solid #DDD;
+}
+
+
+a, a:visited, a:focus, a:active, a:hover{
+    outline:0 none !important;
+}
+
+.font-quicksand {
+    font-family: 'quicksand', 'Helvetica Neue', 'Helvetica';
+    color: #333333;
+}
+
+a.left-na, a.left-nav:hover, a.left-nav:focus {
+    text-decoration: none;
+}
+
+.text-muted {
+    cursor: default;
+}
+
+.unselectable {
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+/* Login Modal */
+div.modal.login-modal {
+    padding-bottom: 20px;
+}
+
+div.modal.login-modal .login-btn-group a.btn {
+    width: 100%;
+    /* color: white;*/
+    margin-bottom: 10px;
+}
+
+div.modal.login-modal form div.row.pull-right {
+    margin: 15px 0px 0px;
+}
+
+div.modal.login-modal .login-group {
+    padding: 0 40px;
+}
+
+div.modal.login-modal div.login-gutter {
+    margin-top: 5px;
+}
+
+@media (min-width: 992px) {
+    div.modal.login-modal .login-group-form {
+        border-left: 1px solid #eee;
+    }
+}
+
+/* Space out content a bit */
+body {
+    padding-bottom: 20px;
+    background: #f5f5f5;
+}
+
+/* Everything but the jumbotron gets side spacing for mobile first views */
+.header,
+.marketing,
+.footer {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Custom page header */
+.header {
+    background: white;
+    border-bottom: 1px solid #e5e5e5;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.nav > li:first-child > a.btn {
+    margin-left: 0;
+}
+
+.nav > li > a.btn {
+    margin-left: 15px;
+    /* visibility: hidden; */
+}
+
+@media (max-width: 480px) {
+    nav.navbar-collapse {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+
+/* Make the masthead heading the same height as the navigation */
+.header h3 {
+    margin-top: 0;
+    margin-bottom: 0;
+    line-height: 40px;
+    display: inline-block;
+}
+
+.main-logo {
+    width: 40px;
+    height: 40px;
+    margin-right: 15px;
+    display: inline-block;
+    vertical-align: bottom;
+    background: url('../img/logo-circle-small.png');
+}
+
+/* main section */
+main[role="main"] {
+    width: 100%;
+    outline: none;
+}
+
+main section {
+    background: floralwhite;
+    margin: 20px 0;
+}
+
+/* Custom page footer */
+footer {
+    display: inline-block;
+    height: 40px;
+    width: 100%;
+    color: #777;
+    padding-bottom: 15px;
+    /* border-top: 1px solid #e5e5e5; */
+}
+
+footer i {
+    font-size: 25px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+footer a {
+    color: #777;
+}
+/*
+i.icon-twitter-logo:hover {
+    color: #4099FF;
+}
+
+i.icon-facebook-logo:hover {
+    color: #3b5998;
+}
+
+i.icon-google-plus-logo:hover {
+    color: #dd4b39
+}
+*/
+
+footer section {
+    width: 100%;
+    text-align: center;
+    display: inline-block;
+}
+
+[data-toggle="popover"] {
+    cursor: pointer;
+    outline: none;
+}
+
+.animate-slow {
+    -webkit-transition: all ease-out .75s;
+    -moz-transition: all ease-out .25s;
+    -o-transition: all ease-out .25s;
+    transition: all ease-out .25s;
+}
+
+.animate {
+    -webkit-transition: all ease-out .5s;
+    -moz-transition: all ease-out .5s;
+    -o-transition: all ease-out .5s;
+    transition: all ease-out .5s;
+}
+
+.animate-opacity-fast {
+    -webkit-transition: opacity ease-out .35s;
+    -moz-transition: opacity ease-out .35s;
+    -o-transition: opacity ease-out .35s;
+    transition: opacity ease-out .35s;
+}
+
+.animate-fast {
+    -webkit-transition: all ease-out .25s;
+    -moz-transition: all ease-out .25s;
+    -o-transition: all ease-out .25s;
+    transition: all ease-out .25s;
+}
+
+.red {
+    background-color: lightpink;
+}
+
+.green {
+    background-color: lightgreen;
+}
+
+.blue {
+    background-color: lightblue;
+}
+
+.text-red {
+    color: lightpink;
+}
+
+.text-green {
+    color: lightgreen;
+}
+
+.text-blue {
+    color: lightblue;
+}
+
+.btn-facebook {
+    -webkit-background-size: 200% 200%;
+    background-size: 200%;
+    background-position: 50%;
+    background-color: #3b5998;
+    color: white;
+    font-weight: bold;
+}
+
+.btn-facebook:hover,
+.btn-facebook:active:hover,
+.btn-facebook:focus {
+    background-color: #324D83;
+    color: white;
+}
+
+.btn-facebook:active {
+    background-color: #324D83;
+    background-image: -webkit-radial-gradient(circle, #324D83 10%, #3b5998 11%);
+    background-image: -o-radial-gradient(circle, #324D83 10%, #3b5998 11%);
+    background-image: radial-gradient(circle, #324D83 10%, #3b5998 11%);
+    background-repeat: no-repeat;
+    -webkit-background-size: 1000% 1000%;
+    background-size: 1000%;
+    -webkit-box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+}
+
+.btn-persona {
+    -webkit-background-size: 200% 200%;
+    background-size: 200%;
+    background-position: 50%;
+    background-color: #FF9500;
+    color: white;
+    font-weight: bold;
+}
+
+.btn-persona:hover,
+.btn-persona:active:hover,
+.btn-persona:focus {
+    background-color: #E66000;
+    color: white;
+}
+
+.btn-persona:active {
+    background-color: #E66000;
+    background-image: -webkit-radial-gradient(circle, #E66000 10%, #FF9500 11%);
+    background-image: -o-radial-gradient(circle, #E66000 10%, #FF9500 11%);
+    background-image: radial-gradient(circle, #E66000 10%, #FF9500 11%);
+    background-repeat: no-repeat;
+    -webkit-background-size: 1000% 1000%;
+    background-size: 1000%;
+    -webkit-box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+}
+
+main section.breadcrumb-container {
+    margin: 0 auto;
+    padding: 0;
+    background: none;
+}
+
+main section.breadcrumb-container .breadcrumb {
+    margin: 0;
+    background: none;
+}
+
+div.widget-container {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    min-height: 160px;
+    min-width: 40px;
+    background: none;
+    z-index: 1078;
+    overflow: hidden;
+}
+
+div.widget-container a.btn-share {
+    line-height: 1;
+    background: white;
+    z-index: 2;
+    display: inline-block;
+    position: absolute;
+    bottom: 0;
+    color: #555;
+}
+
+div.widget-container a:hover, div.widget-container a:focus, div.widget-container a:active {
+    color: #aaa;
+}
+
+div.widget-container svg {
+    fill: currentColor;
+}
+
+div.widget-container div.share-pane {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    z-index: 1;
+    text-align: center;
+    bottom: -80px;
+}
+
+div.widget-container.show-widgets div.share-pane {
+    bottom: 40px;
+}
+
+div.widget-container div.share-pane a {
+    text-decoration: none;
+    outline: 0;
+    color: #555;
+}
+
+div.widget-container div.share-pane i {
+    font-size: 35px;
+    line-height: 1;
+    transition: all 0.2s;
+}
+
+/* Used in questionnaire */
+div.blacktext {
+    color: black;
+}
+span.redlabel {
+    color: red;
+}
+fixme {
+    color: red
+}
+
+/* Used in trait report */
+div.result-text {
+    vertical-align: middle;
+}
+.result-accuracy-text {
+    word-wrap: break-word;
+    width: 500px;
+}
+
+/* Used with <todo></todo> markers */
+fixme {
+    background: #d9534f;
+    color: white;
+    font-weight: bold;
+    border-bottom-left-radius: 2.625px;
+    border-bottom-right-radius: 2.625px;
+    border-top-left-radius: 2.625px;
+    border-top-right-radius: 2.625px;
+    padding: 0.1em;
+    margin: 0.1em;
+}
+fixme:before {
+    content: "(fixme: ";
+}
+fixme:after {
+    content: ")";
+}
+.form-control-date {
+    background: white;
+    border: 1px solid #DDD;
+    background-image: none;
+    /* TODO: Remove the background image when the list/select is open */
+}
+
+/* Flask-Flash message (e.g. 'wrong usename/password') */
+div.flash {
+    color: red;
+}
+
+/* Save as 'alert-info' inbootstrap-paper,
+   'message' is the default category for Flask-Flash */
+.alert-message {
+    color: white;
+    background-color: #9c27b0;
+}

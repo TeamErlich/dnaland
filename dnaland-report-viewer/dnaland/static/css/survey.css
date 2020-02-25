@@ -1,0 +1,14 @@
+body {
+    background: #FCFCFC
+}
+
+main section.survey {
+    background: #FFF;
+    border: 1px solid #e5e5e5;
+    border-top: 2px solid rgb(105, 189, 219);
+    padding-bottom: 20px;
+}
+
+.survey-main {
+    padding: 15px 20px;
+}

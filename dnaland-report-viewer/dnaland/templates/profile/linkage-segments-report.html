@@ -1,0 +1,646 @@
+{% extends "master.html" %}
+
+{%
+   set rel_names = {
+         "0" : "identical twins or duplication",
+         "1" : "parent or sibling",
+         "2" : "uncle",
+         "3" : "1st cousin",
+         "4" : "1st cousin once-removed",
+         "5" : "2nd cousin",
+         "6" : "2nd cousin once-removed",
+         "7" : "3rd cousin",
+         "8" : "3rd cousin once-removed",
+         "9" : "4th cousin",
+         "10": "4th cousin once-removed",
+         "11": "5th cousin"
+     }
+%}
+
+
+{% block css %}
+<link href="/static/css/profile.css" rel="stylesheet">
+<style>
+table, td, th {
+  border: 1px solid black;
+  text-align: center;
+  padding: 10px;
+  line-height: 1;
+}
+
+tr {
+  border: 3px solid black;
+}
+
+table a.small-a {
+  font-size: 8px;
+}
+
+.matching_ind, .d, .total_seg, .total_cm {
+  max-width:100px;
+  word-wrap: break-word;
+}
+
+p.rel_example {
+  font-size: 8px;
+}
+
+{# NOTE: This match match the WIDTH/HEIGHT javascript variable
+         at the bottom of the file #}
+div.chrom_pic_chart {
+  width: 400px;
+  height: 200px;
+}
+
+{# NOTE: This match match the d_hist_width/d_hist_height javascript variable
+         at the bottom of the file #}
+div.d_hist_chart {
+  width: 250px;
+  height: 140px;
+}
+
+div.chrom_table {
+    display:none;
+}
+
+{# NOTE: This match match the WIDTH/HEIGHT javascript variable
+    at the bottom of the file #}
+div.chrom_pic_chart_insig {
+    width: 400px;
+    height: 200px;
+}
+
+{# NOTE: This match match the d_hist_width/d_hist_height javascript variable
+    at the bottom of the file #}
+div.d_hist_chart_insig {
+    width: 250px;
+    height: 140px;
+}
+
+div.chrom_table_insig {
+    display:none;
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+<main class="" role="main" tabindex="-1">
+
+  <section class="pull-left panel full-width">
+
+    <h3>
+      Your DNA Relationship Matches
+    </h3>
+    <div id="chart">
+    </div>
+    <p id="demo"></p>
+    <p>
+      Showing up to 50 matches (<a target="_blank" href="/faq#match_limit">why?</a>).
+      <br/>
+      <a class="large" href="/relative-finder-info">Learn more about the report</a>.
+    </p>
+
+    {% if data|length == 0 %}
+    <p>
+     Unfortunately, we do not have any matches for you in our database.
+     <br><br>
+     As we are continuously receiving new users, please check back at a
+     later time to see if we have found new matches.
+     <br>
+     Or to get positive matches, ask your family members to sign up!
+     <br><br><br>
+    </p>
+    {% endif %}
+
+    {# Macro to draw the table's headers (<tr></th>) with the links
+       to wikipedia, etc. Since there might be two tables
+       (high-certainty and speculative), we'll use a macro to avoid code
+       duplication #}
+    {% macro draw_matches_table_headers() %}
+      <tr>
+          <th>Matching Individual</th>
+          <th>Relationship Degree</th>
+          <th># Shared Segments</th>
+          <th>Total Shared Length
+	      (<a target="_blank" href="https://en.wikipedia.org/wiki/Centimorgan">cM</a>)</th>
+          <th>Total Recent Shared Length
+          (<a target="_blank" href="https://en.wikipedia.org/wiki/Centimorgan">cM</a>)</th>
+          <th>Longest Recent Shared Segment
+          (<a target="_blank" href="https://en.wikipedia.org/wiki/Centimorgan">cM</a>)</th>
+          <th>Relationship Likelihood <br>
+              <a class="small-a" href="javascript:myshowhide('d_hist_chart')">[SHOW/HIDE]</a>
+          </th>
+          <th>Long Shared Segments<br>
+              <a class="small-a" href="javascript:myshowhide('chrom_pic_chart');">[SHOW/HIDE]</a>
+          </th>
+      </tr>
+    {% endmacro %}
+
+    {# Macro to draw one record in the relative-finder table
+       (both tables, high-certainty and Speculate draw the items in the same
+       manner).
+       The parameter 'u' is the user record (ie one element from 'data' list).
+       The parameter 'id_index' is the numeric index suffix to add
+       to the HTML ids of the items (e.g. the chart SVG). #}
+    {% macro draw_match_table_record(u,id_index) %}
+          <tr>
+            <td class="matching_ind">
+	      <b>Name:</b>
+	      <br>
+	      {{ u.name }}
+	      <br>
+	      <br>
+	      <b>Email:</b>
+	      <br>
+	      {{u.email}}
+
+	      {% if u.geni_profile_url %}
+	      <br/>
+	      <br/>
+		<a target="_blank" href="{{ u.geni_profile_url }}">
+                     View my Geni Profile
+		     
+		     <i class="fa fa-share-square-o"></i>
+
+<!-- img src="/static/img/geni-logo.png"
+		       width="35" height="13"
+		       alt="View geni.com Profile"
+		       / -->
+		</a>
+	      {% endif %}
+	    </td>
+            <td class="d"> {{ u.d }}<br>
+              {# Show relatedness example if it matches the current (adjusted) D.
+                     The adjustment was done in python (see ersa_data.py) #}
+              {% set d_str = (u.d|string) %}
+              {% if d_str in rel_names %}
+              <p class="rel_example">e.g.
+                {{ rel_names[d_str] }}
+              </p>
+              {% endif %}
+            </td>
+            <td class="total_seg"> {{ u.total_numseg }} </td>
+            <td class="total_cm"> {{ u.total_cm }} </td>
+            <td class="total_recent_cm"> {{ u.total_recent_cm }} </td>
+            <td class="longest_recent_seg"> {{ u.longest_recent_seg }} </td>
+            
+            <td class="d_hist"> <div class="d_hist_chart", id="d_hist{{id_index}}"></div> </td>
+            <td class="chrom_pic">
+                <div class="chrom_pic_chart", id= "chrom_pic{{id_index}}"></div>
+                <a class="small-a" href="javascript:myshowhidesingle('chrom_table{{id_index}}')">[SHOW/HIDE TABLE]</a>
+                <div class="chrom_table", id= "chrom_table{{id_index}}">
+                    <table>
+                        <tr>
+                            <th>Chromosome</th>
+                            <th>Type</th>
+                            <th>Length (cM)</th>
+                            <th>Start (bp)</th>
+                            <th>End (bp)</th>
+                        </tr>
+                        {% for u2 in u.chrom_pic|sort(attribute='chrom') %}
+                        <tr>
+                            <td>{{u2.chrom}}</td>
+                            {% if u2.pop_anc == 1 %}
+                            <td><p style="color: rgb(202,0,32)"><b>recent</b></p></td>
+                            {% else %}
+                            <td><p style="color: rgb(244,165,130)">ancient</p></td>
+                            {% endif %}
+                            <td>{{u2.length}}</td>
+                            <td>{{u2.bpstart}}</td>
+                            <td>{{u2.bpend}}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </td>
+          </tr>
+    {% endmacro %}
+
+
+    {# Split the list of matches into two:
+       'high certainty' (for 'significant' matches, where d_est != NULL);
+       'speculative' (for insignificant matches).
+
+       HACK ALERT: 'equalto' test doesn't exist in Jinja2 2.7,
+       The test is back-ported manually in the python/flask code.
+    #}
+    {% set sig_list = (data|selectattr("sig","equalto",True)|list) %}
+    {% set insig_list = (data|selectattr("sig","equalto",False)|list) %}
+
+
+    {# Draw the 'high certainty' items #}
+    <h4>High Certainty Matches</h4>
+    {% if sig_list|length > 0 %}
+       <table id="table">
+         {{ draw_matches_table_headers() }}
+         {% for u in sig_list %}
+           {{ draw_match_table_record(u, loop.index) }}
+         {% endfor %}
+       </table>
+    {% else %}
+    No high certainty matches found.
+    <br/>
+    <br/>
+    {% endif %}
+
+    {# Draw the 'speculative' items #}
+    {% if insig_list|length > 0 %}
+       <h4>Speculative Matches</h4>
+       <table id="table">
+         {{ draw_matches_table_headers() }}
+         {% for u in insig_list %}
+           {{ draw_match_table_record(u, loop.index + (sig_list|length) ) }}
+         {% endfor %}
+       </table>
+    {% endif %}
+    
+    <br/>
+    <br/>
+    <a class="btn btn-default btn-sm" href="/main">
+        Back
+    </a>
+  </section>
+
+
+</main>
+{% endblock %}
+
+
+
+
+
+
+
+{% block js %}
+
+<script type="text/javascript" src="/static/ancestry/js/d3.v3.min.js"></script>
+<script type="text/javascript" src="/static/ancestry/js/queue.min.js"></script>
+<script type="text/javascript" src="/static/ancestry/js/topojson.min.js"></script>
+<script src="/static/ancestry/js/jquery-1.11.3.min.js"></script>
+<script>
+function myshowhide(id) {
+    var c = $("." + id);
+    c.toggle();
+}
+function myshowhidesingle(id) {
+    var c = $("#" + id);
+    c.toggle();
+}
+</script>
+
+
+{# On page load #}
+<script type="text/javascript">
+
+{# JSON DATA variable, set by Python/Flask #}
+var data_json = {{ data_json | safe }};
+
+var table_col_labels = [
+    "Matching Individual", "Relationship Degree",
+    "Total Segments", "Total Length (cM)", "Relationship Likelihood",
+    "Shared Chromosomal Segments"
+];
+
+//chromosome lengths and centromere positions taken from https://genome.ucsc.edu/goldenpath/help/hg19.chrom.sizes
+
+var chromlens = [249250621, 243199373, 198022430, 191154276,
+180915260, 171115067, 159138663, 146364022, 141213431, 135534747,
+135006516, 133851895, 115169878, 107349540, 102531392, 90354753,
+81195210, 78077248, 59128983, 63025520, 48129895, 51304566];
+
+var chromcents = [124.2, 93.4, 91.7, 50.9, 47.7, 60.5, 58.9, 45.2,
+50.6, 40.3, 52.9, 35.4, 16, 15.6, 17, 38.2, 22.2, 16.1, 28.5, 27.1,
+12.3, 11.8];
+
+{# NOTE: When changing these,
+         BE SURE to update the corresnpoding CSS styles
+         for 'div.chrom_pic_chart' and 'div.d_hist_chart' #}
+var WIDTH=400;
+var HEIGHT=200;
+var d_hist_width = WIDTH / 1.6;
+var d_hist_height = HEIGHT / 1.6;
+
+
+var num_autosomes = 22;
+var chrom_sep = HEIGHT / 50;
+var chrom_width = (1.8 * HEIGHT - 2 * chrom_sep) / 22 - chrom_sep;
+var chrom_longest_len = WIDTH * 0.8;
+var horiz_border = WIDTH/30;
+var top_adj = HEIGHT / 40;
+
+function draw_chart(data_i)
+{
+
+        //d histogram
+        var width_margin = 50;
+        var width_margin_right = 5; //this side doesn't need to accommodate the axes
+        var height_margin = 15;
+        var x = d3.scale.linear().range([width_margin, d_hist_width - width_margin_right]).domain([0, 10]);
+        var y = d3.scale.linear().range([d_hist_height - height_margin, height_margin]).domain([0, 1]);
+        var xAxis = d3.svg.axis().scale(x).orient("bottom").ticks(5);
+        var yAxis = d3.svg.axis().scale(y).orient("left").ticks(5);
+
+        var lineGen = d3.svg.line()
+        .x(function(d, i) { return x(i); })
+        .y(function(d) { return y(d); })
+        .interpolate("basis");
+
+
+        var super_dhist_svg = d3.select("#d_hist" + (data_i + 1));
+
+        //var dhist_svg = row.append("td")
+        var dhist_svg = super_dhist_svg
+        .append("svg")
+        .attr("height", d_hist_height + height_margin)
+        .attr("width", d_hist_width + width_margin)
+        .style("font-size", HEIGHT/35);
+
+        dhist_svg.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + (d_hist_height - height_margin) + ")")
+        .call(xAxis);
+
+        dhist_svg.append("g")
+        .attr("class", "y axis")
+        .attr("transform", "translate(" + (width_margin) + ", 0)")
+        .call(yAxis);
+
+        dhist_svg.selectAll(".axis line, .axis path").style({"stroke": "Black", "fill": "none", "stroke-width": "1px"});
+
+        //axes labels
+        dhist_svg.append("text")
+        .attr("x", d_hist_width/2)
+        .attr("y", d_hist_height + height_margin/2 + 5)
+        .style("text-anchor", "middle")
+        .text("Relationship degree")
+        .attr("font-size", 10);
+
+        dhist_svg.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 20)
+        .attr("x", 0 - d_hist_width/3.5 + width_margin/2 - 10)
+        .style("text-anchor", "middle")
+        .text("Normalized Likelihood")
+        .attr("font-size", 10);
+
+        //draw the line
+        dhist_svg.append("svg:path")
+        .attr("class", "line")
+        .attr("d", lineGen(data_json[data_i].d_hist))
+        .attr("stroke", "rgb(105,0,17)") //"rgb(51, 51, 255)"
+        .attr("stroke-width", 2)
+        .attr("fill", "none");
+
+        var areaGen = d3.svg.area()
+        .x(function(d, i) { return x(i); })
+        .y0(d_hist_height - height_margin)
+        .y1(function(d) { return y(d); })
+        .interpolate("basis");
+        dhist_svg.append("svg:path")
+        .datum(data_json[data_i].d_hist)
+        .attr("class", "area")
+        .attr("d", areaGen)
+        .attr("fill", "rgb(202,0,32)")
+        .attr("opacity", 0.6); //"rgb(102, 178, 255)"
+
+
+        //chromosome picture
+
+        //colors
+        chromdark = "rgb(78,109,127)"//"rgb(51, 0, 102)"
+        chromlight = "rgb(146,197,222)"//"rgb(229, 204, 255)"
+        popdark = "rgb(179,110,84)"//"rgb(0, 102, 0)"
+        poplight = "rgb(244,165,130)"//"rgb(153, 255, 153)"
+        ibddark = "rgb(105,0,17)"//"rgb(255, 128, 0)"
+        ibdlight = "rgb(202,0,32)"//"rgb(255, 204, 153)"
+        var chrom_svg = d3.select("#chrom_pic" + (data_i + 1));
+        var c = chrom_svg
+        .append("svg:svg")
+        .attr("height", HEIGHT)
+        .attr("width",  WIDTH)
+        .append("svg:g");
+
+        // border around chromosome picture
+        c.append("rect")
+        .attr("x",0)
+        .attr("y",0)
+        .attr("width",WIDTH)
+        .attr("height",HEIGHT)
+        .attr("fill","white")
+        .attr("stroke","none");
+
+        // ---------------
+        // color gradients
+        // ---------------
+        var gradient_chrom = c.append("svg:defs")
+        .append("svg:linearGradient")
+        .attr("id", "gradient_chrom")
+        .attr("x1", "0%")
+        .attr("y1", "0%")
+        .attr("x2", "0%")
+        .attr("y2", "100%")
+        .attr("spreadMethod", "pad");
+
+        gradient_chrom.append("svg:stop")
+        .attr("offset", "0%")
+        .attr("stop-color", chromlight)
+        .attr("stop-opacity", 1);
+
+        gradient_chrom.append("svg:stop")
+        .attr("offset", "100%")
+        //.attr("stop-color", "rgb(51, 0, 102)")
+        .attr("stop-color", chromdark)
+        .attr("stop-opacity", 1);
+        //-----------------
+        var gradient_popseg = c.append("svg:defs")
+        .append("svg:linearGradient")
+        .attr("id", "gradient_popseg")
+        .attr("x1", "0%")
+        .attr("y1", "0%")
+        .attr("x2", "0%")
+        .attr("y2", "100%")
+        .attr("spreadMethod", "pad");
+
+        gradient_popseg.append("svg:stop")
+        .attr("offset", "0%")
+        .attr("stop-color", poplight)
+        .attr("stop-opacity", 1);
+
+        gradient_popseg.append("svg:stop")
+        .attr("offset", "100%")
+        .attr("stop-color", popdark)
+        .attr("stop-opacity", 1);
+        //-----------------
+        var gradient_ibdseg = c.append("svg:defs")
+        .append("svg:linearGradient")
+        .attr("id", "gradient_ibdseg")
+        .attr("x1", "0%")
+        .attr("y1", "0%")
+        .attr("x2", "0%")
+        .attr("y2", "100%")
+        .attr("spreadMethod", "pad");
+
+        gradient_ibdseg.append("svg:stop")
+        .attr("offset", "0%")
+        .attr("stop-color", ibdlight)
+        .attr("stop-opacity", 1);
+
+        gradient_ibdseg.append("svg:stop")
+        .attr("offset", "100%")
+        .attr("stop-color", ibddark)
+        .attr("stop-opacity", 1);
+
+        //calculate longest chrom to scale to frame width
+        var longest_chrom = 0;
+        for (i = 0; i < chromlens.length; i++) {
+          if (chromlens[i] > longest_chrom)   {
+            longest_chrom = chromlens[i];
+          }
+        }
+
+        //generate positions and dimensions for chromosomes
+        var chrom_positions = [];
+        for (i = 0; i < num_autosomes; i++)   {
+          var xlen = chromlens[i] / longest_chrom * chrom_longest_len;
+          var ylen = chrom_width;
+
+          var x1 = horiz_border;
+          var y1 = top_adj + chrom_sep + (chrom_sep + chrom_width) * i;
+          if (i > 11)    {
+            var chrom_partner = num_autosomes + 1 - i;
+            x1 = WIDTH - horiz_border - xlen;
+            y1 = top_adj + chrom_sep + (chrom_sep + chrom_width) * chrom_partner;
+          }
+          chrom_positions.push({ chrom : i + 1, x1 : x1, y1 : y1, xlen : xlen, ylen : ylen });
+        }
+
+        data2 = data_json[data_i].chrom_pic;
+
+        //calculate the number of segments on each chromosome
+        var chrom_num_segs = [];
+        for (i = 0; i < num_autosomes; i++) {
+          chrom_num_segs.push(0);
+        }
+        for (i = 0; i < data2.length; i++) {
+          chrom_num_segs[data2[i].chrom - 1] += 1;
+        }
+
+        //add legend for segment types (ibd/pop)
+        c.append("g").append("circle").attr("cx", WIDTH - 55).attr("cy", 13).attr("r", 3).attr("fill", "url(#gradient_ibdseg)");
+        c.append("g").append("circle").attr("cx", WIDTH - 55).attr("cy", 26).attr("r", 3).attr("fill", "url(#gradient_popseg)");
+        c.append("g").append("text").attr("x", WIDTH - 55 + 5).attr("y", 13 + 3).text("recent").attr("fill", "url(#gradient_ibdseg)").attr("font-size", 14);
+        c.append("g").append("text").attr("x", WIDTH - 55 + 5).attr("y", 26 + 3).text("ancient").attr("fill", "url(#gradient_popseg)").attr("font-size", 14);
+
+        //place the chromosomes
+        var chrom_group = c.append("g");
+        chrom_group.selectAll("rect")
+        .data(chrom_positions)
+        .enter()
+        .append("rect")
+        .attr("x", function(d)  { return d.x1; })
+        .attr("y", function(d)  { return d.y1; })
+        .attr("width", function(d) { return d.xlen; })
+        .attr("height", function(d) { return d.ylen; })
+        .attr("fill", "url(#gradient_chrom)");
+
+        //place chromosome number label
+        var text_group = c.append("g");
+        text_group.selectAll("text")
+        .data(chrom_positions)
+        .enter()
+        .append("text")
+        .attr("x", function(d)  { return d.x1 - horiz_border / 1.5; })
+        .attr("y", function(d)  { return d.y1 + chrom_width / 2; })
+        .text(function(d) { return d.chrom; })
+        .attr("fill", "black")
+        .attr("font-size", (chrom_width / 2) + "px");
+
+        //place chromosome-specific segments and curved edges
+        var seg_group = c.append("g");
+        for (i = 0; i < num_autosomes; i++)   {
+          var xlen = chrom_positions[i].xlen;
+          var ylen = chrom_positions[i].ylen;
+          var x1 = chrom_positions[i].x1;
+          var y1 = chrom_positions[i].y1;
+
+          //position of centromere
+          var cent_frac = chromcents[i] * Math.pow(10, 6) / chromlens[i];
+
+          // Draw shared segments over chromosomes
+          for (j = 0; j < data2.length; j++)    {
+            var segment = data2[j];
+            rectx = x1 + segment.bpstart / chromlens[i] * xlen;
+            //will set the width to 0 if the bpstart point is past the length of the chromosome
+            rectwidth = Math.max((Math.min(segment.bpend, chromlens[i]) - segment.bpstart) / chromlens[i] * xlen, 0);
+
+            var seg_color = "url(#gradient_popseg)";
+            if (segment.pop_anc == 1) {
+              seg_color = "url(#gradient_ibdseg)";
+            }
+            if (segment.chrom == i + 1)   {
+              seg_group.append("rect")
+              .attr("x", rectx)
+              .attr("width", rectwidth)
+              .attr("y", y1)
+              .attr("height", ylen)
+              .attr("fill", seg_color);
+            }
+          }
+
+          // Draw rounded ends and centromeres of chromosomes
+          radius = ylen / 2;
+          stroke_width = radius / 15;
+          var stroke_color = "white";
+          for (j = 0 - stroke_width; j < ylen + stroke_width; j += stroke_width)  {
+            var line_len = radius - Math.sqrt(Math.max(2 * radius * j - j * j, 0));
+            for( k = 0; k < 2; k++ )  { //k layers
+              c.append("line")  //left
+              .attr("x1", x1 - 1)
+              .attr("y1", j + y1)
+              .attr("x2", x1 + line_len)
+              .attr("y2", j + y1)
+              .attr("stroke-width", stroke_width)
+              .attr("stroke", stroke_color)
+              .attr("opacity", 1);
+              if (line_len >= 0.5)  {
+                c.append("line")  //middle
+                .attr("x1", x1 + cent_frac * xlen - line_len)
+                .attr("y1", j + y1)
+                .attr("x2", x1 + cent_frac * xlen + line_len)
+                .attr("y2", j + y1)
+                .attr("stroke-width", stroke_width)
+                .attr("stroke", stroke_color)
+                .attr("opacity", 1);
+              }
+              c.append("line")  //right
+              .attr("x1", x1 + xlen - line_len)
+              .attr("y1", j + y1)
+              .attr("x2", x1 + xlen + 1)
+              .attr("y2", j + y1)
+              .attr("stroke-width", stroke_width)
+              .attr("stroke", stroke_color)
+              .attr("opacity", 1);
+            }
+          }
+        }
+}
+
+var data_i = 0;
+function draw_next_chart()
+{
+    draw_chart(data_i);
+    data_i++;
+    if (data_i < data_json.length) {
+        setTimeout(draw_next_chart,50);
+    }
+}
+
+$(function()
+{
+    setTimeout(draw_next_chart,50);
+});
+
+</script>
+
+{% endblock %}

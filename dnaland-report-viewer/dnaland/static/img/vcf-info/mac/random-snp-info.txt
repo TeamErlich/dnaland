@@ -1,0 +1,4 @@
+7	151626756	rs2374298	T	C	0	PASS	NS=1	GT:GL	0/0:-0.22,-0.40,-2.70
+
+http://www.ncbi.nlm.nih.gov/projects/SNP/snp_ref.cgi?rs=2374298
+

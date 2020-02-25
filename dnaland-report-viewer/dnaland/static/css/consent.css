@@ -1,0 +1,38 @@
+/* -- Consent Form Styles -- */
+
+.consent-form div
+{
+    padding-left: 20px;
+}
+
+#consent-terms
+{
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+#consent-terms p, li
+{
+	font-size:15px;
+}
+
+#consent-terms img
+{
+	width:40px;
+}
+
+/* Used with <todo></todo> markers */
+todo {
+    background: #d9534f;
+    color: white;
+    font-weight: bold;
+    border-bottom-left-radius: 2.625px;
+    border-bottom-right-radius: 2.625px;
+    border-top-left-radius: 2.625px;
+    border-top-right-radius: 2.625px;
+    padding: 0.1em;
+    margin: 0.1em;
+}
+todo:before {
+    content: "TODO:";
+}

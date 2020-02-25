@@ -1,0 +1,159 @@
+body {
+    color: black;
+}
+.btn-default {
+    color: black;
+}
+.full-width {
+    width:100%;
+    padding:15px;
+}
+
+.popover-contanier:hover {
+    cursor: help;
+    background: #f0f0f0;
+}
+
+[data-toggle="popover"] {
+    cursor: help;
+}
+
+main section.greeting {
+    min-height: 220px;
+    padding-bottom: 20px;
+}
+
+main section.user-space {
+    background: none;
+}
+
+main section.user-space div.box > .panel {
+    position: relative;
+}
+
+main section.user-space div.box > div.panel-body {
+    background: white;
+    padding: 20px;
+    position: relative;
+}
+
+main section.user-space .row {
+    margin: 0 -24px
+}
+
+main section.user-space [class*="col-"] {
+    padding: 0 10px;
+    background: none
+}
+
+@media (max-width: 992px) {
+    main section.user-space {
+        padding: 0;
+    }
+
+    main section.user-space .row {
+        margin: 0;
+    }
+
+    main section.user-space [class*="col-"] {
+        padding: 0;
+    }
+
+}
+
+main section.user-space div.progress {
+    opacity: 0;
+}
+
+main section.user-space form.upload-form {
+    position: relative;
+}
+
+main section.user-space form.upload-form input[type="file"] {
+    visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.donut-container {
+    text-align: center;
+    width: 240px;
+    height: 240px;
+    margin: 0 auto;
+    opacity: 0;
+    will-change: opacity;
+    position: relative;
+}
+
+.donut-container.loaded {
+    opacity: 1
+}
+
+.donut-container .tooltip {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.donut-container .tooltip.over {
+    opacity: 1;
+}
+
+.donut-container .tooltip label {
+    border-radius: 4px;
+    background: white;
+    color: black;
+    -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    min-height: 20px;
+    min-width: 100px;
+    font-family: Roboto, Helvetica Neue, Helvetica, Arial;
+    padding: 5px;
+    margin-bottom: 0;
+}
+
+.donut-container .tooltip.top {
+    margin-top: 0;
+}
+
+.donut-container .tooltip.top .tooltip-arrow {
+    border-top-color: #FFF
+}
+
+.donut-container .tooltip.top .tooltip-arrow.shadow {
+    border-top-color: rgba(0, 0, 0, 0.2);
+    bottom: -1px;
+}
+
+table i {
+    font-size: 1em;
+    vertical-align: middle;
+}
+
+table i.icon-twitter-logo {
+    color: #4099FF;
+}
+
+table i.icon-facebook-logo {
+    color: #3b5998;
+}
+
+table i.icon-google-plus-logo {
+    color: #dd4b39
+}
+
+table td {
+    text-overflow: ellipsis;
+}
+
+@media (max-width: 480px) {
+    table tr td:first-child {
+        padding-left: 15px;
+    }
+}
+
+span.new_feature {
+    color:red;
+    background:yellow;
+}

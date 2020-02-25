@@ -1,0 +1,17 @@
+**/.idea/
+*.iml
+#**/.idea/workspace.xml
+#**/.idea/tasks.xml
+.DS_Store
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# Database file
+*.db
+
+# setup.py files
+build/
+dist/
+*.egg-info/

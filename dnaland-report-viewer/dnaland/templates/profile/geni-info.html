@@ -1,0 +1,144 @@
+{% extends "master.html" %}
+
+{% block css %}
+<style>
+img.geni {
+   border: 1px solid black;
+   max-width: 100%;
+}
+</style>
+{% endblock %}
+
+{% block navbartitle %}
+DNA.LAND - Geni.com information
+{% endblock %}
+
+{% block content %}
+<main class="" role="main" tabindex="-1">
+
+  <section class="container fluid-container greeting panel">
+    <h4>
+      Importing Geni.com Profile Information
+    </h4>
+
+    <p>
+      Importing your
+      <a target="_blank" href="https://www.geni.com">geni.com</a>
+      profile will allow your relatives to see a
+      link to your Geni profile and for you to see links to their
+      Geni profiles. This can facilitate finding a paper trail
+      between you and your DNA relatives.
+    </p>
+
+    <p>
+      Importing your data will be done using a secure connection
+      with Geni.com API. Importantly, Geni cannot see any of your
+      DNA information or any data your provided to DNA.Land. We
+      (DNA.Land) cannot observe your Geni password or payment
+      details (if exist). The <b>only</b> information we will collect is
+      the details of your Geni profile page. If you do not have a
+      Geni profile, you can create one for free on
+      Geni.com. DNA.Land does not endorse this service or involve
+      with it.
+    </p>
+
+    <p>
+      We worked with Geni.com data
+      <a href="http://www.nature.com/news/genome-hacker-uncovers-largest-ever-family-tree-1.14037"
+	 target="_blank">in the past</a>
+      and were able to
+      learn important details on human health and
+      <a href="https://www.youtube.com/watch?v=fNY_oZaH3Yo" target="_blank">migration events.</a>
+      Importing your Geni profile will help us to continue
+      these interesting studies.
+    </p>
+
+    <br/>
+    <br/>
+    <br/>
+
+    <h5>Relative Finder with Geni.com Information</h5>
+
+    <p>
+      After importing your geni.com profile information into DNA.Land,
+      you will see a link to your relative's geni.com profile information
+      (provided they have imported their geni.com profile as well):
+    </p>
+
+    <center>
+      <img class="geni" src="static/img/geni-info/geni-import-relative-finder.png" />
+    </center>
+
+    <br/>
+    <br/>
+    <br/>
+
+
+    <h5>Importing Workflow</h5>
+
+    <p>
+      To import your geni.com profile information into DNA.Land, visit
+      the main profile page, and click the <b>Import From Geni.com</b>
+      button:
+    </p>
+    <center>
+      <img class="geni" src="static/img/geni-info/geni-import-connect.png" />
+    </center>
+
+    <br/>
+    <br/>
+    <br/>
+    <p>
+      A new pop-up window will appear, with Geni.com login screen.
+      Enter your Geni.com email and password, and click <b>login</b>.
+      <br/>
+      <small>(<b>NOTE:</b> The password is sent securely and directly to geni.com.
+	Your geni.com password is never sent to DNA.Land.)</small>
+    </p>
+    <center>
+      <img class="geni" src="static/img/geni-info/geni-import-login.png" />
+    </center>
+
+    <br/>
+    <br/>
+    <br/>
+    <p>
+      After logging-in to Geni.com, you will be asked to authorize the DNA.Land
+      application. By authorizing it, your geni.com profile information
+      will be imported into DNA.Land.
+      <br/>
+      <small>
+	(<b>NOTE:</b> DNA.Land does not send any information to Geni.com.
+	Geni.com will <i>not</i> see any genotype or phenotype information
+	you've uploaded to DNA.Land.)
+      </small>
+    </p>
+    <center>
+      <img class="geni" src="static/img/geni-info/geni-import-authorize.png" />
+    </center>
+
+
+    <br/>
+    <br/>
+    <br/>
+    <p>
+      After geni.com authorization, the main profile page will reflect
+      your new status. To disconnect, click on the <b>disconnect</b> link.
+    </p>
+    <center>
+      <img class="geni" src="static/img/geni-info/geni-import-disconnect.png" />
+    </center>
+
+
+    <br/>
+
+    <a href="/main" data-action="back"
+       class="btn btn-primary pull-right">
+      Close
+    </a>
+
+
+  </section>
+
+</main>
+{% endblock %}

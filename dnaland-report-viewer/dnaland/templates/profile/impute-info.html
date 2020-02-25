@@ -1,0 +1,246 @@
+{% extends "master.html" %}
+
+{% block css %}
+    <style>
+      span.impute_letters {
+          font-family: monospace;
+          font-size: 200%;
+      }
+
+    </style>
+{% endblock %}
+
+{% block navbartitle %}
+DNA.LAND - Impute Information
+{% endblock %}
+
+{% block content %}
+<main class="" role="main" tabindex="-1">
+
+  <section class="container fluid-container greeting panel">
+    <h4>About Imputation</h4>
+    <p>
+
+      <a href="https://en.wikipedia.org/wiki/Imputation_(statistics)">Imputation</a>
+      is the process of replacing missing information based on existing
+      information, using statistical models.
+
+      <br/>
+      <br/>
+
+      <a href="https://en.wikipedia.org/wiki/Imputation_(genetics)">Imputation in Genetics</a>
+      means using statistical inference to deduce unknown genotypes
+      based on known ones.
+      <br/>
+      DNA.Land uses the
+      <a target="_blank" href="https://mathgen.stats.ox.ac.uk/genetics_software/shapeit/shapeit.html">ShapeIT</a>
+      and
+      <a target="_blank" href="https://mathgen.stats.ox.ac.uk/impute/impute_v2.html">Impute2</a>
+      programs as part of the imputation pipeline.
+
+      <br/>
+      <br/>
+
+      To illustrate, given this sentense, is it possible know what is
+      the missing letter (i.e. to <i>impute the missing letter</i>) ?
+      <br/>
+      <br/>
+      <span class="impute_letters">
+	I saw a blue ca_ on your head
+      </span>
+
+      <br/>
+      <br/>
+      If you are an English speaker, you should not have any problem to
+      complete this sentence.
+      <br/>
+      But wait! How did you do that?
+      If any letter is acceptable, there are 26 possible sentences!
+      <br/>
+      <br/>
+      Of course, as an English speaker, you can
+      make some requirements, such as ensuring
+      it is a real word in the English language,
+      then <b>b,d,l,m,n,p,r,t</b> now become much more likely
+      than other letters (corresponding to <b>cab,cad,cal,
+        cam,can,cap,car,cat</b>, respectively).
+      <br/>
+      <br/>
+      Then, you can make even further requirements, such as preferring more commonly
+      used words, leave <b>b,n,p,r,t</b> as likely answers.
+      <br/>
+      <br/>
+      Last, with even stricter requirements that the sentence makes sense
+      in the real physical world, the only letter that makes sense is
+      <b>p</b> and the sentence is <b> I saw a blue cap on your head</b>.
+
+      <br/>
+
+      This is the same way that genetic imputation works. We take
+      whole genome sequencing data to create dictionary of genomic
+      'text' (known as haplotypes). Then, we ask the imputation
+      algorithm to use this dictionary to complete missing letters
+      (genotypes) so they will make sense and match the words in the
+      dictionary.
+
+      <br/>
+      <br/>
+
+      The above qualitative explanation applies to DNA.Land's VCF files as well:
+      <br/>
+      Uploaded genotype files (e.g. from 23-and-Me) contains between
+      500,000 to 1,000,000 SNPs.
+      <br/>
+      DNA.Land's imputation pipeline <i>imputes</i> (i.e. infers the
+      value of) additional 38,000,000 SNPs.
+      <br/>
+
+      <br/>
+      However, imputation is not always so easy.
+      Think about the sentence:</br>
+
+      <span class="impute_letters">
+        I saw a blue ca_ yesterday.
+      </span>
+      <br/>
+      Here our linguistic requirements do not work so well, and we
+      have several possibilities to complete the sentence.
+      However, we can associate these possbilties with likelihoods.
+      For example, "car" will have higher likelihood than "can", "cat" or "cab"
+      because, the latter words are uncommon.
+
+      <!--
+      <br/>
+      If we also consider the possiblity of noisy data (see next
+      /ection) - perhaps the 'a' in 'ca' is incorrect - the
+      real sequence might have been 'co', and thus the missing letter is most likely
+      <b>p</b> for blue <b>cop</b>, or slightly less-likely, <b>w</b>
+      (referring, of course, to
+      <a href="https://en.wikipedia.org/wiki/Belgian_Blue">Belgian Blue Cows</a>).
+      -->
+
+      <br/>
+      <br/>
+
+      The take home message is that each imputed genotype has some
+      likelihood to be incorrect.  As we saw in the example above,
+      common words are easy to impute while rare words are harder.
+
+
+      This is also true with genetic variants: common variations that
+      appear in a frequency of &gt;5% of the population are usually
+      more accurate than very rare variation. Thus, using imputed data
+      to check if you are a carrier for a rare genetic disorder
+      (e.g. Joubert Syndrome) is a bad idea.
+
+      Another complication is that imputation show variable success
+      rates for different populations. You can think about imputing
+      human genomes as imputing different languages. Our imputation
+      algorithm knows a large number of "languages".
+
+      However, certain populations have more "dialects" (genetic
+      variations) than others. For example, we expect to do a better
+      job on genomes of European and East Asians than Africans because
+      the genetic variance in Africa is the highest in all continents.
+
+      <br/>
+      <br/>
+      Any reported value should never be taken as-is without further
+      careful analysis.
+      <br/>
+      <br/>
+    </p>
+
+    <br/>
+    <br/>
+    {# NOTE: If user has javascript enabled, the 'onclick'
+             event should override the href and the user
+             will be taken back to the page he/she came from.
+             If javascript is disabled, the user will be
+             returned to the main page. #}
+    <a href="/" data-action="back" onclick="goBack();"
+       class="btn btn-primary pull-right">
+      Back
+    </a>
+
+  </section>
+
+  <!--
+  <section class="container fluid-container greeting panel">
+    <h4>Understanding 'Noisy' Data</h4>
+    <p>
+
+      The information in DNA.Land's Imputed VCF files
+      is <b>noisy</b> - what does that mean?
+      <br/>
+      To illustrate we'll use a drawing of a 4-colored circle with
+      varying level of noise (added digitally):
+      <table>
+	<tr>
+	  <td><img src="/static/img/noisy-circle/noisy-circle/0-noise.png"/></td>
+	  <td><img src="/static/img/noisy-circle/noisy-circle/025-noise.png"/></td>
+	  <td><img src="/static/img/noisy-circle/noisy-circle/050-noise.png"/></td>
+	  <td><img src="/static/img/noisy-circle/noisy-circle/075-noise.png"/></td>
+	  <td><img src="/static/img/noisy-circle/noisy-circle/100-noise.png"/></td>
+	</tr>
+	<tr>
+	  <td><center>0% noise</center></td>
+	  <td><center>25% noise</center></td>
+	  <td><center>50% noise</center></td>
+	  <td><center>75% noise</center></td>
+	  <td><center>100% noise</center></td>
+	</tr>
+      </table>
+      <br/>
+
+      As humans, if someone had presented us with such a
+      drawing of 75% noise level, we'd likely still be able
+      to determine the general shape and color of each
+      quadrant.
+
+      <br/>
+      <br/>
+
+      In molecular biology, information is always <i>noisy</i> -
+      we never know the <b>true</b> values (corresponding
+      to the circle with 0% noise). Any instrumented measurement
+      (such as a microarray genotyping of a DNA sample) will return
+      noisy information.
+
+      <br/>
+
+      All we can do is try to reduce the amount of noise, and
+      calculate the likelihood that the value we detect
+      and report is the "correct" value.
+
+      <br/>
+      <br/>
+
+      In the picture below, we might report a high probabilty
+      value for point A (i.e. it is very likely that this point
+      was blue in the original drawing), while assigning a low
+      probability value to point B (i.e. it is very <i>unlikely</i>
+      the point was green in the original drawing, though we can not
+      easily know what is the "correct" value):
+      <br/>
+
+      <img src="/static/img/noisy-circle/noisy-circle/noise-zoom.png" /> <br/>
+      <br/>
+      <br/>
+
+      The above qualitative explanation applies to DNA.Land's
+      VCF files as well:
+      <br/>
+      When genotypes and SNPs are reported in the file (e.g. a value
+      of <b>G</b> for SNP <b>rs12345678</b>) - there is <i>always</i>
+      a likeli1hood of an error.
+      <br/>
+      <br/>
+      Any reported value should never be taken as-is without further
+      careful analysis.
+    </p>
+  </section>
+  -->
+</main>
+
+{% endblock %}

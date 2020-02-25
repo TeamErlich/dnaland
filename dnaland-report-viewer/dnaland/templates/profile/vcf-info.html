@@ -1,0 +1,1034 @@
+{% extends "master.html" %}
+
+{% block css %}
+    <style>
+      img.screenshot {
+          max-width: 100%;
+          vertical-align: middle;
+          text-align: center;
+
+          margin-top: 5px;
+          margin-left:20px;
+
+
+          border: 5px solid black;
+          -webkit-border-radius: 5px;
+          -moz-border-radius: 5px;
+          border-radius: 5px;
+      }
+
+
+      div.inst:before {
+          /* content: '\25BA';*/
+      }
+
+      ol.inst li {
+          margin-top: 3em;
+          font-size: 100%;
+          font-weight: 200%;
+      }
+
+      span.readme {
+          color: red;
+          font-weight: bold;
+      }
+
+      span.impute_letters {
+          font-family: monospace;
+          font-size: 200%;
+      }
+
+      table.vcf_example {
+          border-collapse: separate;
+          border-spacing: 3ex 0px;
+          padding-bottom: 3ex;
+      }
+
+      table.vcf_example th {
+          text-align: right;
+      }
+
+      table.vcf_example td {
+         font-family: monospace;
+         text-align: center;
+      }
+      table.vcf_example td:nth-child(2n) {
+         /* background: #F0F0F0; */
+      }
+
+
+      table.vcf_breakdown {
+          margin-left: 1ex;
+          margin-top: 1ex;
+          border-collapse: collapse;
+      }
+
+      table.vcf_breakdown th {
+         vertical-align: top;
+         padding-left: 1em;
+      }
+      table.vcf_breakdown td {
+         vertical-align: top;
+         padding-left: 1em;
+      }
+
+      table.vcf_breakdown tr:nth-child(2n) {
+          background: #F0F0F0;
+      }
+      table.vcf_breakdown tr.topheader th {
+          border-bottom: 1px solid black;
+          padding-right: 1em;
+      }
+
+      div.override-panel-heading {
+          background: blue !important;
+          background-color: white !important;
+          border: 0px solid black !important;
+          border-color:blue !important;
+      }
+
+      div.vcf_content_details {
+          font-size: 100%;
+      }
+    </style>
+{% endblock %}
+
+{% block navbartitle %}
+DNA.LAND - VCF Information
+{% endblock %}
+
+{% block content %}
+<main class="" role="main" tabindex="-1">
+
+  <section class="container fluid-container greeting panel">
+    <h4>
+      Viewing DNA.Land VCF Files
+    </h4>
+
+    <p>
+      Your DNA.Land VCF files lists the imputed results of 39 million
+      genetic variants across your genome. This file is huge and
+      cannot be observed using standard tools such as Microsoft Excel.
+    </p>
+    <p>
+      This tutorial will guide you how to view this file
+      on your Windows or Mac computer, search for specific variations,
+      and explain the VCF format
+    </p>
+    <p>
+      Two methods are shown:
+      <ol>
+        <li>Using
+          <a target="_blank" href="https://compass.dna.land">DNA.Land Compass</a>
+          - a website designed for easy VCF exploration.
+          <br/>
+          This method does not require any software installation.
+          <br/>
+          DNA.Land Compass requires downloading two files: <code>.vcf.gz</code>
+          and <code>.tbi</code> files - both are available from DNA.Land.
+        </li>
+        <li>Using <b>glogg</b> - a special program which allows
+          viewing large files on your computer.
+          <br/>
+          This method requires installing the <b>glogg</b> program
+          and is meant for advanced users (installation instructions below).
+          <br/>
+          Glogg requires one file: <code>.vcf.gz</code> which is
+          available from DNA.Land.
+        </li>
+      </ol>
+    </p>
+
+    <br/>
+    {# NOTE: If user has javascript enabled, the 'onclick'
+             event should override the href and the user
+             will be taken back to the page he/she came from.
+             If javascript is disabled, the user will be
+             returned to the main page. #}
+    <a href="/" data-action="back" onclick="goBack();"
+       class="btn btn-primary pull-right">
+      Back
+    </a>
+  </section>
+
+  <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+    <section class="container fluid-container panel panel-default">
+      <div class="panel-heading override-panel-heading" role="tab" id="readme_hdr">
+	<h4 class="panel-title">
+          <a role="button" data-toggle="collapse" data-parent="#accordion"
+	     href="#readme" aria-expanded="true" aria-controls="readme">
+	    <span class="readme">
+	      Read This First - Understanding VCF's limitations
+	    </span>
+          </a>
+	</h4>
+      </div>
+
+      <div id="readme" class="panel-collapse collapse"
+	   role="tabpanel" aria-labelledby="readme_hdr">
+	<div class="panel-body">
+	  <ul>
+	    <li>
+	      DNA.Land is a research project - the data is presented
+	      for self-curosity and education purposes and should not
+	      be used for clinical diagnosis.
+	    </li>
+
+	    <li>
+	      The information contained in the download VCF is
+	      the result of an <b>Imputation</b> process.
+	      It is <b>noisy</b> and <b>probabilistic</b>.
+	      <br/>
+
+	      Visit the
+	      <a href="/impute-info">Imputation page</a> to
+	      learn why.
+	    </li>
+
+	  </ul>
+	</div>
+      </div>
+    </section> <!-- readme panel -->
+
+    <!-- COMPASS -->
+
+     <section class="container fluid-container panel panel-default">
+      <div class="panel-heading override-panel-heading" role="tab" id="compass_win_hdr">
+	<h4 class="panel-title">
+          <a role="button" data-toggle="collapse" data-parent="#accordion"
+	     href="#compass_win" aria-expanded="true"
+	     aria-controls="compass_win">
+
+	    Downloading and Viewing VCF using <b>DNA.Land Compass</b> (Windows)
+
+          </a>
+	</h4>
+      </div>
+
+      <div id="compass_win" class="panel-collapse collapse" role="tabpanel"
+	   aria-labelledby="compass_win_hdr">
+	<div class="panel-body">
+	  <ol class="inst">
+	    <li>
+	      On the DNA.Land main page, scroll down to the <b>My
+		Files</b> section, and click on the <b>Imputed
+		VCF</b> file: <br/> <img class="screenshot"
+					 src="static/img/vcf-info/win/01-dnaland-file-list.png" />
+	    </li>
+
+	    <li>
+	      The <i>downloads</i> screen will be displayed: <br/>
+	      <img class="screenshot"
+		   src="static/img/vcf-info/win/02-dnaland-download-file.png" />
+	    </li>
+
+	    <li>
+	      Right-Click on the <code>vcf.gz</code> to display
+	      the options menu, and select
+	      <b>Save target as...</b> option.  <br/> NOTE: it is
+	      recommended to use this method instead of just
+	      clicking on the file to avoid incorrect automatic
+	      handling of the file by Windows.  <br/>
+	      <img class="screenshot"
+		   src="static/img/vcf-info/win/03-dnaland-save-as.png" />
+	    </li>
+
+
+	    <li>
+	      Save the file in the Downloads folder as a <code>.vcf.gz</code> file:
+	      <br/>
+	      <img class="screenshot" src="static/img/vcf-info/win/04-save-as-correct-extension.png" />
+	    </li>
+
+	    <li>
+	      The downloaded file should look like so: <br/>
+	      <img class="screenshot"
+		   src="static/img/vcf-info/win/05-downloaded-gzip-file.png" />
+	    </li>
+
+	     <li>
+               An additional file is required by DNA.Land Compass -
+               the <code>.tbi</code> file.
+               <br/>
+	       On the DNA.Land main page, scroll down to the <b>My Files</b>
+               section, and click on the <b>Imputed TBI</b>
+               file: <br/> <img class="screenshot"
+				src="static/img/vcf-info/win/01-dnaland-file-list-tbi.png" />
+	    </li>
+
+	    <li>
+	      The <i>downloads</i> screen for the TBI file will be displayed: <br/>
+	      <img class="screenshot"
+		   src="static/img/vcf-info/win/02-dnaland-download-file-tbi.png" />
+	    </li>
+
+	    <li>
+	      Right-Click on the <code>vcf.gz.tbi</code> to display
+	      the options menu, and select
+	      <b>Save target as...</b> option.  <br/> NOTE: it is
+	      recommended to use this method instead of just
+	      clicking on the file to avoid incorrect automatic
+	      handling of the file by Windows.  <br/>
+	      <img class="screenshot"
+		   src="static/img/vcf-info/win/03-dnaland-save-as-tbi.png" />
+	    </li>
+
+
+	    <li>
+	      Save the file in the Downloads folder as a
+              <code>.gz.tbi</code> file:
+	      <br/>
+	      <img class="screenshot" src="static/img/vcf-info/win/04-save-as-correct-extension-tbi.png" />
+	    </li>
+
+	    <li>
+	      The downloaded file should look like so: <br/>
+	      <img class="screenshot"
+		   src="static/img/vcf-info/win/05-downloaded-gzip-file-tbi.png" />
+	    </li>
+
+	    <li>
+              With the two files downloaded on your computer,
+              visit the
+              <a target="_blank" href="https://compass.dna.land/explorer.html">
+                DNA.Land Compass Website</a>
+              to upload the files and view them.
+              <br/>
+              To learn more, see the DNA.Land Compass
+              <a target="_blank" href="https://compass.dna.land/guide.html">guide</a>.
+            </li>
+
+	    <li>
+	      Read below to learn more about the meaning of the
+	      values in DNA.Land's VCF file.
+            </li>
+
+	  </ol>
+	</div>
+      </div>
+    </section> <!-- compass win panel -->
+
+
+
+    <section class="container fluid-container panel panel-default">
+      <div class="panel-heading override-panel-heading" role="tab" id="compass_mac_hdr">
+	<h4 class="panel-title">
+          <a role="button" data-toggle="collapse" data-parent="#accordion"
+	     href="#compass_mac" aria-expanded="true" aria-controls="compass_mac">
+	    Downloading and Viewing VCF using <b>DNA.Land Compass</b> (Mac)
+          </a>
+	</h4>
+      </div>
+
+      <div id="compass_mac" class="panel-collapse collapse"
+	   role="tabpanel" aria-labelledby="compass_mac_hdr">
+	<div class="panel-body">
+
+	  <ol class="inst">
+	    <li>
+	      On the DNA.Land main page, scroll down to the <b>My
+		Files</b> section, and click on the <b>Imputed VCF</b> file:
+	      <br/>
+	      <img class="screenshot" src="static/img/vcf-info/mac/01-dnaland-website-myfiles.png" />
+	    </li>
+
+
+
+	    <li>
+	      The <i>downloads</i> screen will be displayed:
+	      <br/>
+	      <img class="screenshot" src="static/img/vcf-info/mac/02-dnaland-download-screen.png" />
+	    </li>
+
+
+
+	    <li>
+	      Hold <b>CONTROL</b> and click on the <code>vcf.gz</code> to
+	      display the options menu, and select
+	      <b>Download Linked File</b> option.
+	      <br/>
+	      NOTE: it is recommended to use this method
+	      instead of just clicking on the file to avoid incorrect automatic
+	      handling of the file by Mac OS X.
+	      <br/>
+	      <img class="screenshot" src="static/img/vcf-info/mac/03-dnaland-download-menu-as-save.png" />
+	    </li>
+
+
+	    <li>
+	      The file will be downloaded and stored in
+	      the <b>Downloads</b> folder:
+	      <br/>
+	      <img class="screenshot" src="static/img/vcf-info/mac/04-downloading-file-in-finder.png" />
+	    </li>
+
+	    <h4>Getting the Imputed TBI:</h4>
+
+	    <li>
+	      On the DNA.Land main page, scroll down to the <b>My
+		Files</b> section, and click on the <b>Imputed TBI</b> file:
+	      <br/>
+	      <img class="screenshot" src="static/img/vcf-info/mac/01-dnaland-website-myfiles-tbi.png" />
+	    </li>
+
+
+
+	    <li>
+	      The <i>downloads</i> screen will be displayed:
+	      <br/>
+	      <img class="screenshot" src="static/img/vcf-info/mac/02-dnaland-download-screen-tbi.png" />
+	    </li>
+
+
+
+	    <li>
+	      Hold <b>CONTROL</b> and click on the <code>vcf.gz.tbi</code> to
+	      display the options menu, and select
+	      <b>Download Linked File</b> option.
+	      <br/>
+	      NOTE: it is recommended to use this method
+	      instead of just clicking on the file to avoid incorrect automatic
+	      handling of the file by Mac OS X.
+	      <br/>
+	      <img class="screenshot" src="static/img/vcf-info/mac/03-dnaland-download-menu-as-save-tbi.png" />
+	    </li>
+
+
+	    <li>
+	      The file will be downloaded and stored in
+	      the <b>Downloads</b> folder:
+	      <br/>
+	      <img class="screenshot" src="static/img/vcf-info/mac/04-downloading-file-in-finder-tbi.png" />
+	    </li>
+
+
+	    <li>
+              With the two files downloaded on your computer,
+              visit the
+              <a target="_blank" href="https://compass.dna.land/explorer.html">
+                DNA.Land Compass Website</a>
+              to upload the files and view them.
+              <br/>
+              To learn more, see the DNA.Land Compass
+              <a target="_blank" href="https://compass.dna.land/guide.html">guide</a>.
+            </li>
+
+	    <li>
+	      Read below to learn more about the meaning of the
+	      values in DNA.Land's VCF file.
+	    </li>
+
+	  </ol>
+	</div>
+      </div>
+    </section> <!-- compass mac panel -->
+
+    <!-- /COMPASS -->
+
+
+
+    <section class="container fluid-container panel panel-default">
+      <div class="panel-heading override-panel-heading" role="tab" id="glogg_win_hdr">
+	<h4 class="panel-title">
+          <a role="button" data-toggle="collapse" data-parent="#accordion"
+	     href="#glogg_win" aria-expanded="true"
+	     aria-controls="glogg_win">
+
+	    Downloading and Viewing VCF using <b>GLOGG</b> (Windows)
+
+          </a>
+	</h4>
+      </div>
+
+      <div id="glogg_win" class="panel-collapse collapse" role="tabpanel"
+	   aria-labelledby="glogg_win_hdr">
+	<div class="panel-body">
+
+	  <ol class="inst">
+	    <li>
+	      On the DNA.Land main page, scroll down to the <b>My
+		Files</b> section, and click on the <b>Imputed
+		VCF</b> file: <br/> <img class="screenshot"
+					 src="/static/img/vcf-info/win/01-dnaland-file-list.png" />
+	    </li>
+
+	    <li>
+	      The <i>downloads</i> screen will be displayed: <br/>
+	      <img class="screenshot"
+		   src="/static/img/vcf-info/win/02-dnaland-download-file.png" />
+	    </li>
+
+	    <li>
+	      Right-Click on the <code>vcf.gz</code> to display
+	      the options menu, and select
+	      <b>Save target as...</b> option.  <br/> NOTE: it is
+	      recommended to use this method instead of just
+	      clicking on the file to avoid incorrect automatic
+	      handling of the file by Windows.  <br/>
+	      <img class="screenshot"
+		   src="/static/img/vcf-info/win/03-dnaland-save-as.png" />
+	    </li>
+
+
+	    <li>
+	      Save the file in the Downloads folder as a <code>.gz</code> file:
+	      <br/>
+	      <img class="screenshot" src="/static/img/vcf-info/win/04-save-as-correct-extension.png" />
+	    </li>
+
+	    <li>
+	      The downloaded file should look like so: <br/>
+	      <img class="screenshot"
+		   src="/static/img/vcf-info/win/05-downloaded-gzip-file.png" />
+	    </li>
+
+	    <li>
+	      To decompress the file, right-click on the file, and
+	      select <b>Extract Here</b> from the <b>7-Zip</b>
+	      menu.  <br/>
+	      <a href="http://www.7-zip.com">7-zip</a> (or other similar decompression
+	      programs) must be installed to decompress the file.  <br/>
+	      <img class="screenshot"
+		   src="/static/img/vcf-info/win/06-7zip-extact-to-here.png" />
+	    </li>
+
+	    <li>
+	      Decompressing the file might take few minutes
+	      (depending on the computer's speed): <br/>
+	      <img class="screenshot"
+		   src="/static/img/vcf-info/win/07-7zip-decompressing.png" />
+	    </li>
+
+	    <li>
+	      When decompression is complete, the <i>downloads</i>
+	      folder should contain the two files:
+	      <img class="screenshot"
+		   src="/static/img/vcf-info/win/08-extracted-file.png" />
+	    </li>
+
+
+	    <li>
+	      To view such a large file, a special program is
+	      needed.  <br/> Here we show how to download and use
+	      a program called <b>glogg</b>.  <br/> Download glogg
+	      for Windows from the
+	      <a href="http://glogg.bonnefon.org/download.html">Glogg's
+		Download page</a>, and run the installation program.
+	    </li>
+
+	    <li>
+	      After installation is complete, open the
+	      <i>Start Menu</i>, and select the
+	      <a href="http://glogg.bonnefon.org/">Glogg</a>
+	      program: <br/> <img class="screenshot"
+				  src="/static/img/vcf-info/win/112-glogg-in-start-menu.png" />
+	    </li>
+
+	    <li>
+	      <a href="http://glogg.bonnefon.org/">Glogg</a>'s
+	      initial screen is empty. Click the
+	      yellow <i>Open</i> button or select <b>Open</b> from
+	      the <b>File</b> menu.  <br/> <img class="screenshot"
+						src="/static/img/vcf-info/win/113-glogg-main-screen.png" />
+	    </li>
+
+	    <li>
+	      In the <b>Open Dialog</b>, navigate to the <b>Downloads</b> folder
+	      and select the <code>.vcf</code> file.
+	      <br/>
+	      <img class="screenshot" src="/static/img/vcf-info/win/10.5-glogg-open-dialog.png" />
+	    </li>
+
+	    <li>
+	      glogg will load the VCF file (might take few minutes,
+	      depending on the computer's speed):
+	      <br/>
+	      <img class="screenshot" src="/static/img/vcf-info/win/10-glogg-loading-file.png" />
+	    </li>
+
+	    <li>
+	      Once the file is loaded, its content can be searched using
+	      the search box at the bottom of the screen. In the example below
+	      we are searching for the SNP identified as <code>rs17822931</code>
+	      (this is the
+	      <a href="http://www.snpedia.com/index.php/Rs17822931">Wet Earwax Gene</a>).
+	      Depending on the computer's speed, the search might take few minutes.
+	      <br/>
+	      <img class="screenshot" src="/static/img/vcf-info/win/12-glogg-snp-search.png" />
+	    </li>
+
+
+	    <li>
+	      If the SNP is found (technically: if the text we've
+	      searched for was found in the file), the matching lines will be shown
+	      in the search results window at the bottom:
+	      <br/>
+	      <img class="screenshot" src="/static/img/vcf-info/win/13-glogg-snp-found.png" />
+	    </li>
+
+
+	    <li>
+	      Read below to learn more about the meaning of the
+	      values in DNA.Land's VCF file.
+	    </li>
+
+	  </ol>
+	</div>
+      </div>
+    </section> <!-- glogg_win panel -->
+
+
+
+    <section class="container fluid-container panel panel-default">
+      <div class="panel-heading override-panel-heading" role="tab" id="dl_mac_hdr">
+	<h4 class="panel-title">
+          <a role="button" data-toggle="collapse" data-parent="#accordion"
+	     href="#dl_mac" aria-expanded="true" aria-controls="dl_mac">
+	    Downloading and Viewing VCF using <b>GLOGG</b> (Mac)
+          </a>
+	</h4>
+      </div>
+
+      <div id="dl_mac" class="panel-collapse collapse"
+	   role="tabpanel" aria-labelledby="dl_mac_hdr">
+	<div class="panel-body">
+
+	  <ol class="inst">
+	    <li>
+	      On the DNA.Land main page, scroll down to the <b>My
+		Files</b> section, and click on the <b>Imputed VCF</b> file:
+	      <br/>
+	      <img class="screenshot" src="/static/img/vcf-info/mac/01-dnaland-website-myfiles.png" />
+	    </li>
+
+
+
+	    <li>
+	      The <i>downloads</i> screen will be displayed:
+	      <br/>
+	      <img class="screenshot" src="/static/img/vcf-info/mac/02-dnaland-download-screen.png" />
+	    </li>
+
+
+
+	    <li>
+	      Hold <b>CONTROL</b> and click on the <code>vcf.gz</code> to
+	      display the options menu, and select
+	      <b>Download Linked File</b> option.
+	      <br/>
+	      NOTE: it is recommended to use this method
+	      instead of just clicking on the file to avoid incorrect automatic
+	      handling of the file by Mac OS X.
+	      <br/>
+	      <img class="screenshot" src="/static/img/vcf-info/mac/03-dnaland-download-menu-as-save.png" />
+	    </li>
+
+
+	    <li>
+	      The file will be downloaded and stored in
+	      the <b>Downloads</b> folder:
+	      <br/>
+	      <img class="screenshot" src="/static/img/vcf-info/mac/04-downloading-file-in-finder.png" />
+	    </li>
+
+
+	    <li>
+	      When downloading is completed, double-Click on the file to decompress it.
+	      <br/>
+	      <img class="screenshot" src="/static/img/vcf-info/mac/07-downloaded-file-correct-extension.png" />
+	    </li>
+
+
+	    <li>
+	      Decompressing the file will take few mintues (depending on
+	      your computer's speed):
+	      <br/>
+	      <img class="screenshot" src="/static/img/vcf-info/mac/08-decompressing.png" />
+	    </li>
+
+
+	    <li>
+	      When decompression is complete, a second file with
+	      <code>.vcf</code> will appear in the <i>downloads</i> folder.
+	      <br/>
+	      NOTE: <b>vcf</b> files are sometimes associated with
+	      the <i>Contacts</i> program as <b>vCards File</b> format -
+	      this VCF is not such a vCard contacts file, and should not be
+	      opened in <i>Contacts</i>.
+	      <br/>
+	      <img class="screenshot" src="/static/img/vcf-info/mac/09-decompressed-files-in-downloads-folder.png" />
+	    </li>
+
+	    <li>
+	      To view such a large file, a special program is
+	      needed.  <br/> Here we show how to download and use
+	      a program called <b>glogg</b>.
+	      <br/>
+	      Download and save the <a href="http://files.teamerlich.org/glogg/103/glogg.dmg">glogg.dmg</a>
+	      file in the <i>Downloads</i> folder, double-click on the file to
+	      open it:
+	      <br/>
+	      <img class="screenshot" src="/static/img/vcf-info/mac/16-download-glogg-dmg.png" />
+	    </li>
+
+
+
+	    <li>
+		The <b>glogg</b> application file will be displayed in a new window:
+		<br/>
+		<img class="screenshot" src="/static/img/vcf-info/mac/17-glogg-release-dmg-open.png" />
+	    </li>
+
+
+
+	    <li>
+	      Simply running the application will be blocked by Mac OS X,
+	      with the following warning:
+	      <br/>
+	      <img class="screenshot" src="/static/img/vcf-info/mac/18-glogg-cant-open-warning.png" />
+	    </li>
+
+	    <li>
+	      Run enable the application, hold <b>control</b> and click
+	      the application icon, then select <b>Open</b>
+	      from the menu:
+	      <br/>
+	      <img class="screenshot" src="/static/img/vcf-info/mac/19-glogg-menu-open.png" />
+	    </li>
+
+
+	    <li>
+	      A new warning message will appear, select <b>Open</b> to
+	      start the application:
+	      <br/>
+	      <img class="screenshot" src="/static/img/vcf-info/mac/20-glogg-open-warning.png" />
+	    </li>
+
+	    <li>
+	      glogg's window will appear. Click on the Yellow <b>
+		Open</b> icon, or select <b>Open</b> from the <b>File</b> menu:
+	      <br/>
+	      <img class="screenshot" src="/static/img/vcf-info/mac/10-glogg-empty-screen.png" />
+	    </li>
+
+	    <li>
+	      In the <b>Open Dialog</b>, navigate to the <b>Downloads</b> folder
+	      and select the <code>.vcf</code> file:
+	      <br/>
+	      <img class="screenshot" src="/static/img/vcf-info/mac/10.5-glogg-open-dialog.png" />
+	    </li>
+
+
+	    <li>
+	      glogg will load the VCF file (might take few minutes,
+	      depending on the computer's speed):
+	      <br/>
+	      <img class="screenshot" src="/static/img/vcf-info/mac/11-glogg-loading-file.png" />
+	    </li>
+
+	    <li>
+	      Once the file is loaded, its content can be searched using
+	      the search box at the bottom of the screen. In the example below
+	      we are searching for the SNP identified as <code>rs17822931</code>
+	      (this is the
+	      <a href="http://www.snpedia.com/index.php/Rs17822931">Wet Earwax Gene</a>).
+	      Depending on the computer's speed, the search might take few minutes.
+	      <br/>
+	      <img class="screenshot" src="/static/img/vcf-info/mac/12-glogg-searching-for-SNP.png" />
+	    </li>
+
+
+	    <li>
+	      If the SNP is found (technically: if the text we've
+	      searched for was found in the file), the matching lines will be shown
+	      in the search results window at the bottom:
+	      <br/>
+	      <img class="screenshot" src="/static/img/vcf-info/mac/13-glogg-SNP-found.png" />
+	    </li>
+
+
+	    <li>
+	      Read below to learn more about the meaning of the
+	      values in DNA.Land's VCF file.
+	    </li>
+
+	  </ol>
+	</div>
+      </div>
+    </section> <!-- dl_mac panel -->
+
+
+
+
+    <section class="container fluid-container panel panel-default">
+
+      <div class="panel-heading override-panel-heading" role="tab" id="vcf_info_hdr">
+	<h4 class="panel-title">
+          <a role="button" data-toggle="collapse" data-parent="#accordion"
+	     href="#vcf_info" aria-expanded="true" aria-controls="vcf_info">
+	    Understanding VCF values
+          </a>
+	</h4>
+      </div>
+
+      <div id="vcf_info" class="panel-collapse collapse"
+	   role="tabpanel" aria-labelledby="vcf_info_hdr">
+	<div class="panel-body vcf_content_details">
+
+	  Each line in a DNA.Land VCF file contains 10 fields:
+
+	  <table class="vcf_example">
+	    <tr>
+	      <th>Field #</th>
+	      <td>1</td>
+	      <td>2</td>
+	      <td>3</td>
+	      <TD>4</TD>
+	      <TD>5</TD>
+	      <td>6</td>
+	      <TD>7</TD>
+	      <TD>8</TD>
+	      <TD>9</TD>
+	      <td>10</td>
+	    </tr>
+	    <tr>
+	      <th>Field Name</th>
+	      <td>chr</td>
+	      <td>pos</td>
+	      <td>id</td>
+	      <TD>ref</TD>
+	      <TD>alt</TD>
+	      <td>qual</td>
+	      <TD>filter</TD>
+	      <TD>info</TD>
+	      <TD>format</TD>
+	      <td>data</td>
+	    </tr>
+	    <tr>
+	      <th>Example Value</th>
+	      <td>7</td>
+	      <td>151626756</td>
+	      <td>rs2374298</td>
+	      <TD>T</TD>
+	      <TD>C</TD>
+	      <td>0</td>
+	      <TD>PASS</TD>
+	      <TD>NS=1</TD>
+	      <TD>GT:GL</TD>
+	      <td>0/0:-0.22,-0.40,-2.70</td>
+	    </tr>
+	  </table>
+
+	  Below is the meaning of each field:
+
+	  <table class="vcf_breakdown">
+	    <tr>
+	      <th>#</th>
+	      <th>Field Name</th>
+	      <th>Example Value</th>
+	      <th>Comments</th>
+	    </tr>
+	    <tr>
+	      <th>1</th>
+	      <th>Chromosome (chr)</th>
+	      <td>7</td>
+	      <td>The chromosome in which the variant is located</td>
+	    </tr>
+
+	    <tr>
+	      <th>2</th>
+	      <th>Position (pos)</th>
+	      <td>151626756</td>
+	      <td>The genomic position of the variant in the
+		<a href="http://www.ncbi.nlm.nih.gov/projects/genome/assembly/grc/">Human Reference Genome</a>
+		version
+		<a href="http://www.ncbi.nlm.nih.gov/assembly/2758/">GRCh37</a>
+		(aka
+		<a href="http://genome.ucsc.edu/cgi-bin/hgGateway?clade=mammal&org=Human&db=hg19">hg19</a>
+		).
+	      </td>
+	    </tr>
+
+	    <tr>
+	      <th>3</th>
+	      <th>Identifier (id)</th>
+	      <td>rs2374298</td>
+	      <td>global variant identifier.
+	          Can be searched on
+		    <a href="http://snpedia.com/">SNPedia</a>,
+		    <a href="http://www.ncbi.nlm.nih.gov/projects/SNP/">dbSNP</a>
+		    and other resources.
+	      </td>
+	    </tr>
+
+
+	    <tr>
+	      <th>4</th>
+	      <th>Reference base (ref)</th>
+	      <TD>T</TD>
+	      <td>The nucleotide found in the
+		<a href="http://www.ncbi.nlm.nih.gov/projects/genome/assembly/grc/">Human Reference Genome</a>
+		version
+		<a href="http://www.ncbi.nlm.nih.gov/assembly/2758/">GRCh37</a>
+		(aka
+		<a href="http://genome.ucsc.edu/cgi-bin/hgGateway?clade=mammal&org=Human&db=hg19">hg19</a>
+		).
+	      </td>
+	    </tr>
+
+
+	    <tr>
+	      <th>5</th>
+	      <th>Alternate base (alt)</th>
+	      <TD>C</TD>
+	      <td>The alternate nucleotide (when the genotype differs
+		  from the reference nucleotide one)</td>
+	    </tr>
+
+	    <tr>
+	      <th>6</th>
+	      <th>Quality (qual)</th>
+	      <td>0</td>
+	      <td>Not used in DNA.Land's VCF</td>
+	    </tr>
+
+	    <tr>
+	      <th>7</th>
+	      <th>Filter</th>
+	      <TD>PASS</TD>
+	      <td>Not used in DNA.Land's VCF</td>
+	    </tr>
+
+	    <tr>
+	      <th>8</th>
+	      <th>Info</th>
+	      <TD>NS=1</TD>
+	      <td><b>N</b>umber of <b>S</b>amples.
+		Always 1 in DNA.Land VCF files.
+	      </td>
+	    </tr>
+
+	    <tr>
+	      <th>9</th>
+	      <th>Format</th>
+	      <TD>GT:GL</TD>
+	      <td><b>G</b>eno<b>T</b>ype and
+		<b>G</b>enotype<b>-L</b>ikelihood markers.
+		<br/>
+		(see below for further interpretation)
+	      </td>
+	    </tr>
+
+	    <tr>
+	      <th>10</th>
+	      <th>Data</th>
+	      <td>0/0:-0.22,-0.40,-2.70</td>
+	      <td>Genotype and Genotype-Likelihood values of the variant
+		  for the imputed sample<br/>
+		(see below for further interpretation)</td>
+	    </tr>
+	  </table>
+
+	  <br/>
+	  <br/>
+	  How to interpret INFO and DATA values in the VCF file?
+	  <br/>
+	  The INFO and DATA fields contain corresponding values,
+	  separated by colons:
+	  <br/>
+	  <img src="/static/img/vcf-info/vcf_info_data2.png" />
+	  <br/>
+
+
+	  <br/>
+	  <br/>
+	  interpretting REF/ALT and GT/GL values in the VCF file:
+
+	  <table class="vcf_breakdown">
+	    <tr class="topheader">
+	      <th colspan="4">Genotype</th>
+	      <td></td>
+	      <th colspan="6">Example Values from VCF file</th>
+	      <td></td>
+	    </tr>
+
+	    <tr>
+	      <th>GT Code</th>
+	      <th>Meaning</th>
+	      <th>Description</th>
+	      <th>Abbrev.</th>
+	      <td></td>
+	      <th>REF</th>
+	      <th>ALT</th>
+	      <th>GT</th>
+	      <th>deduced<br/>
+		genotype</th>
+	      <th>GL<br/><small>(Genotype Likelihood)</small></th>
+	      <th>comments</th>
+	    </tr>
+
+	    <tr>
+	      <td>0/0</td>
+	      <td>REF/REF</th>
+	      <td>Homozygous reference</td>
+	      <td>hom_ref</td>
+	      <td></td>
+	      <td>T</td>
+	      <td>C</td>
+	      <td>0/0</td>
+	      <td>TT</td>
+	      <td>-0.22</td>
+	      <td>This genotype has the highest likelihood,
+	          thus it is the chosen genotype that will apear
+	          in the VCF file (GT=0/0).</td>
+	    </tr>
+
+	    <tr>
+	      <td>0/1&nbsp;or&nbsp;1/0</td>
+	      <td>REF/ALT</th>
+	      <td>Heterozygous</td>
+	      <td>het</td>
+	      <td></td>
+	      <td>T</td>
+	      <td>C</td>
+	      <td>0/1&nbsp;or&nbsp;1/0</td>
+	      <td>TC or CT</td>
+	      <td>-0.40</td>
+	      <td>in DNA.Land's VCF file, there is
+		<br/>
+		no way to differentiate between
+		<br/>
+		TC and CT, they are treated the same.</td>
+	    </tr>
+
+	    <tr>
+	      <td>1/1</td>
+	      <td>ALT/ALT</th>
+	      <td>Homozygous Alternate</td>
+	      <td>hom_alt</td>
+	      <td></td>
+	      <td>T</td>
+	      <td>C</td>
+	      <td>1/1</td>
+	      <td>CC</td>
+	      <td>-2.70</td>
+	      <td></td>
+	    </tr>
+	  </table>
+	</div>
+      </div>
+    </section> <!-- vcf_info panel -->
+
+
+  </div>  <!-- collapsible accordion -->
+
+
+
+</main>
+{% endblock %}
+
+{% block js %}
+<script src="/static/bower_components/jquery/dist/jquery.min.js"></script>
+<script src="/static/splash/js/bootstrap/bootstrap.min.js"></script>
+{% endblock %}

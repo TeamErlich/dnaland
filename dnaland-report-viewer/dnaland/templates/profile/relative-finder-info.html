@@ -1,0 +1,150 @@
+{% extends "master.html" %}
+
+{% block navbartitle %}
+DNA.LAND - Relative Finder Information
+{% endblock %}
+
+{% block content %}
+<main class="" role="main" tabindex="-1">
+
+  <section class="container fluid-container greeting panel">
+    <h4>
+      Relative Finder Information (v0.3):
+    </h4>
+
+    <p>
+    Relative finder allows you to search for biological relatives
+    based on DNA matches. If you decide to get a report, you will be
+    able to see the names, contact information, estimated
+    relationship, and the location of shared DNA segments for each
+    potential relative. Your relatives will be able to see the same
+    information about you. The tool is currently experimental and
+    under development.
+    </p>
+
+    <p>
+      This is how a basic relative finding report looks:
+    </p>
+    <center>
+      <img style="max-width:100%" src="static/img/relative-finder-info-v3.jpg" />
+    </center>
+
+   <h4>
+      Interpreting your relative finder report:
+    </h4>
+    <p>
+      "High Certainty Matches" refers to users who share many long
+      segments which likely originated from a recent common
+      ancestor. "Speculative Matches" refers to users who share long
+      segments, but more likely due to multiple distant ancestors rather
+      then a single recent one.
+      <ul>
+	<li>
+          <strong>Matching individuals</strong>:You will be able to
+          see the name and email of your matched relative.
+	</li>
+	<li>
+          <strong>Relation degree</strong>: This number represents the
+          estimated
+	  <a href="https://en.wikipedia.org/wiki/Coefficient_of_relationship">
+	    degree of relationship
+	  </a>
+	  between you and your matched relative. The report also
+          suggests a possible genealogical relationship that could
+          match your degree of relationship.
+	</li>
+	<li>
+          <strong># Shared Segments</strong>: Number of shared segments
+	  (the number of blocks) between individuals. For close
+	  relatives (e.g. sibling), this number is usually an upper
+	  bound of the actual shared segments. The reason is that our
+	  pipeline uses genetic imputation algorithm to computationally
+	  increase the number of SNPs of the input data. As imputation
+	  is not 100% errors-free, a few erroneous SNPs can break a very
+	  long shared segment into two (usually still long) segments and
+	  increase the reported number of segments.
+	</li>
+	<li>
+          <strong>Total Shared Length</strong>: This number denotes
+          the sum of the total shared segments measured in
+          centiMorgans (this is a metric geneticists use to define the
+          distance between chromosome positions, which roughly equals
+          1 million base pairs).
+	</li>
+	<li>
+          <strong>Total Recent Shared Length</strong>: This number
+          denotes the sum of the total shared segments from recent
+          ancestry (the red blocks) measured in centiMorgans. <i>Only
+          segments that are recent are counted towards relatedness
+          calculations</i>.
+	</li>
+	<li>
+          <strong>Longest Recent Shared Segment</strong>: Of the
+          recently shared segments, this is the length of the longest
+          one.
+	</li>
+	<li>
+          <strong>Relationship likelihood</strong>: The relationship
+          likelihood reflects the uncertainty of the relative finder
+          inference. It shows the normalized likelihood of the
+          relationship degree from column 2.
+	</li>
+	<li>
+          <strong>Shared chromosomal segments</strong>: This graph
+          shows all all autosomes and the positions of the shared
+          segments with the matched relative. These segments come from
+          either recent ancestry (the red blocks) or more distant
+          population background (ping-orange blocks). The derivation
+          of recent versus ancient segments utilizes the length of the
+          segments. Short segments have higher probability to be
+          reported as ancient whereas long segments are usually
+          reported as recent.
+	</li>
+
+	<li>
+          <strong>Table of shared segments</strong>: In order to view
+          the actual locations of the shared segments, click on the
+          "SHOW/HIDE TABLE" button (red arrow in the figure
+          below). The locations are reported using Build 373/hg19
+          coordinates of the human genome. Please bear in mind that
+          this feature is experimental.
+	</li>
+      </ul>
+      <center>
+	<img style="max-width:100%" src="static/img/table_relative_v1.png"  /><br>
+	<strong>Table of shared segments</strong><br>
+	(table is truncated for presentation purposes)
+      </center>
+    </p>
+
+    <h5>Things to consider</h5>
+
+    Relative finder reports allow you to learn more about your family and
+    genealogy. However, in some cases, it can reveal unexpected
+    findings such as non-paternity events. The report also presents
+    the DNA segments that you and your relative share and classifies
+    the shared segments as <font color="#f4a582">ancient</font>
+    and <font color="#ca0020">recent</font> segments using a
+    statistical algorithm (right most column). With this information,
+    you and your relative can better understand how you are
+    related. However, this could reveal some information to your
+    relative about your DNA sequence in the shared regions.  For
+    example, if your relative has a specific allele in one of the
+    shared segments, she or he could estimate that there is a 50%
+    chance you have the same allele. If you decide not to participate
+    in relative finding, your relatives will not be able to see this
+    information. However, you will not be able to see your relative
+    finder report.
+
+    <br/>
+
+    <a href="/main" data-action="back"
+       class="btn btn-primary pull-right">
+      Close
+    </a>
+
+
+  </section>
+
+</main>
+{% endblock %}
